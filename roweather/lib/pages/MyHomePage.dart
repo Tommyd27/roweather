@@ -34,18 +34,18 @@ class _MyHomePageState extends State<MyHomePage> {
       key: scaffoldKey,
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/sculling-cropped.png"),
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.topCenter,
-              ),
+        Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/sculling-cropped.png"),
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
             ),
-            height: 600,
           ),
-          Container(
+          height: 600,
+        ),
+        Container(
           decoration: const BoxDecoration(
               color: Colors.white,
               gradient: LinearGradient(
@@ -61,15 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ])),
         ),
         Positioned(
-          left: 10,
-          top: 20,
-          child: IconButton(
-            icon: Icon(Icons.menu, color: Colors.white),
-            onPressed: () => scaffoldKey.currentState!.openDrawer(),
-          )
-        )
-        ]
-      ),
+            left: 10,
+            top: 20,
+            child: IconButton(
+              icon: Icon(Icons.menu, color: Colors.white),
+              onPressed: () => scaffoldKey.currentState!.openDrawer(),
+            ))
+      ]),
     );
   }
 }
