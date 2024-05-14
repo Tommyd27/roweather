@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'sections/sidebar.dart';
+import 'sections/nextfewdays.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -59,6 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.3,
                     0.6,
                   ])),
+        ),
+        Center(
+          child: NextFewDays(),
         ),
         Positioned(
             left: 10,
