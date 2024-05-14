@@ -2,6 +2,8 @@ import 'pages/sections/calendar.dart';
 import 'pages/sections/settings.dart';
 import 'package:flutter/material.dart';
 import 'pages/home.dart';
+import 'pages/sections/timeSelector.dart';
+import 'pages/sections/timeWheel.dart';
 
 void main() {
   runApp(BaseApp());
@@ -30,7 +32,7 @@ class BaseApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: TimeSelector()//MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
