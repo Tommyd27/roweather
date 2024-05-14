@@ -1,8 +1,15 @@
 import 'pages/homepage.dart';
+import 'pages/appstate.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(BaseApp());
+  runApp(
+    ChangeNotifierProvider(
+    create: (context) => AppState(),
+    child: BaseApp()
+    ),
+  );
 }
 
 class BaseApp extends StatelessWidget {

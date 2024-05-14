@@ -1,3 +1,4 @@
+import 'package:demo/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import '../calendar.dart';
 import '../settings.dart';
@@ -28,8 +29,11 @@ class Sidebar extends StatelessWidget {
           ListTile(
             title: const Text('Home'),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MyHomePage(title: "Home")),
+              );
             },
           ),
           ListTile(
