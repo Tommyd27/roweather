@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
-
-class HomeCalendar extends StatefulWidget{
+class HomeCalendar extends StatefulWidget {
   @override
   _HomeCalendarPageState createState() => _HomeCalendarPageState();
 }
