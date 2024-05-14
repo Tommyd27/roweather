@@ -1,18 +1,24 @@
-import 'pages/sections/calendar.dart';
-import 'pages/sections/settings.dart';
+import 'pages/homepage.dart';
+import 'pages/appstate.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'pages/home.dart';
 import 'pages/sections/timeSelector.dart';
 import 'pages/sections/timeWheel.dart';
 
 void main() {
-  runApp(BaseApp());
+  runApp(
+    ChangeNotifierProvider(
+    create: (context) => AppState(),
+    child: BaseApp()
+    ),
+  );
 }
 
 class BaseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Roweather',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -32,6 +38,11 @@ class BaseApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      home: const MyHomePage(title: 'Roweather Home Page'),
+    );
+  }
+}
+
       home: TimeSelector()//MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
