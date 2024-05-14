@@ -23,7 +23,7 @@ class Sidebar extends StatelessWidget {
                   child: Align(
                     alignment: Alignment(-1, -1),
                     child: IconButton(
-                      icon: Icon(Icons.close),
+                      icon: const Icon(Icons.close),
                       onPressed: () => scaffoldKey.currentState!.closeDrawer(),
                     )
                   )

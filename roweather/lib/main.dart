@@ -1,4 +1,4 @@
-import 'pages/sections/calendar.dart';
+import 'pages/calendar.dart';
 import 'pages/settings.dart';
 import 'package:flutter/material.dart';
 
