@@ -25,32 +25,6 @@ class _SettingsPageState extends State<SettingsPage> {
       key: scaffoldKey,
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/sculling-cropped.png"),
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.topCenter,
-              ),
-            ),
-            height: 600,
-          ),
-          Container(
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              gradient: LinearGradient(
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
-                  colors: [
-                    Color(0x00003330),
-                    Color(0xFF003330),
-                  ],
-                  stops: [
-                    0.3,
-                    0.6,
-                  ])),
-        ),
         Positioned(
           left: 10,
           top: 20,
