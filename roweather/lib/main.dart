@@ -1,6 +1,5 @@
 import 'pages/sections/calendar.dart';
 import 'package:flutter/material.dart';
-import 'pages/sections/timeWheel.dart';
 
 void main() {
   runApp(BaseApp());
