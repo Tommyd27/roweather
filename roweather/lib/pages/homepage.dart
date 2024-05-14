@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'sections/sidebar.dart';
 import 'sections/nextfewdays.dart';
+import 'package:provider/provider.dart';
+import 'appstate.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -70,7 +72,18 @@ class _MyHomePageState extends State<MyHomePage> {
             child: IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
-            ))
+            )),
+      Consumer<AppState>(
+              builder: (context, appstate, child) {
+                return Container(
+                  padding: const EdgeInsets.all(64.0),
+                  child: appstate.testData == ""
+                    ? CircularProgressIndicator()
+                    : Text(
+                        '${appstate.testData}',
+                      ));
+              },
+            ),
       ]),
     );
   }

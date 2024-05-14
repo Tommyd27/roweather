@@ -9,7 +9,8 @@ class Outing {
 }
 
 class AppState with ChangeNotifier {
-  int temperature = 30;
+  int temperature = 0;
+  String testData = "";
   final outings = <Outing>[];
 
   AppState() {
@@ -21,6 +22,8 @@ class AppState with ChangeNotifier {
     if (response.statusCode == 200) {
       //final r = json.decode(response.body);
       // process response
+      temperature = 10;
+      testData = response.body;
       notifyListeners();
     } else {
       throw Exception("Failure fetching APIs"); 
