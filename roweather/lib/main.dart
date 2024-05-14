@@ -1,6 +1,4 @@
-import 'pages/calendar.dart';
-import 'pages/settings.dart';
-import 'pages/MyHomePage.dart';
+import 'pages/homepage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,7 +8,7 @@ void main() {
 class BaseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Roweather',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,8 +28,7 @@ class BaseApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Roweather Home Page'),
     );
   }
 }
-
