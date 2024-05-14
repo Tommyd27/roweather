@@ -1,7 +1,6 @@
 import 'pages/sections/calendar.dart';
 import 'pages/settings.dart';
 import 'package:flutter/material.dart';
-import 'pages/home.dart';
 
 void main() {
   runApp(BaseApp());
