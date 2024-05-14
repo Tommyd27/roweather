@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 
-
 class HomeCalendar extends StatefulWidget{
   @override
   _HomeCalendarPageState createState() => _HomeCalendarPageState();
 }
 
 class _HomeCalendarPageState extends State<HomeCalendar> {
+
+final CalendarFormat _calendarFormat = CalendarFormat.month;
+DateTime _focusedCalendarDate = DateTime.now();
+DateTime? selectedCalendarDate;
 
   @override
   void initState() {
@@ -35,10 +38,10 @@ class _HomeCalendarPageState extends State<HomeCalendar> {
               )
             ),
             TableCalendar(
-              focusedDay: DateTime.now(),
+              focusedDay: _focusedCalendarDate,
               firstDay: DateTime.now(),
               lastDay: DateTime.now().add(const Duration(days: 60)),
-              calendarFormat: CalendarFormat.month,
+              calendarFormat: _calendarFormat,
               weekendDays: const[DateTime.sunday, 6],
               startingDayOfWeek: StartingDayOfWeek.monday,
               daysOfWeekHeight: 40.0,
@@ -70,17 +73,33 @@ class _HomeCalendarPageState extends State<HomeCalendar> {
                ),
               ),
               calendarStyle: CalendarStyle(
+                weekendTextStyle: const TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Roboto',
+                ),
                 todayDecoration: BoxDecoration(
-                  color: const Color(0xff85B09A),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xff85B09A),
+                  shape: BoxShape.circle,
                 ),
                 selectedDecoration: BoxDecoration(
-                  color: const Color(0x808080),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xff808080),
+                  shape: BoxShape.circle,
                 )
               ),
+              selectedDayPredicate: (currentSelectedDate) {
+                return (isSameDay(selectedCalendarDate, currentSelectedDate));
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                if (!isSameDay(selectedCalendarDate, selectedDay)) {
+                  setState(() {
+                    selectedCalendarDate = selectedDay;
+                    _focusedCalendarDate = focusedDay;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                _focusedCalendarDate = focusedDay;
+              },
             )
           ]
         )
