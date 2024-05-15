@@ -1,7 +1,8 @@
+import 'package:demo/pages/sections/sidebar.dart';
 import 'package:flutter/material.dart';
-import '../sections/calendar.dart';
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -11,12 +12,15 @@ class SettingsPage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
+
+  final String title;
+
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
- var scaffoldKey = GlobalKey<ScaffoldState>();
+class _MyHomePageState extends State<MyHomePage> {
+  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,56 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       key: scaffoldKey,
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            SizedBox(
-              height: 100,
-              child: DrawerHeader(
-                padding: EdgeInsets.only(left: 10, top: 0),
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-              ),
-                  child: Align(
-                    alignment: Alignment(-1, -1),
-                    child: IconButton(
-                      icon: Icon(Icons.close),
-                      onPressed: () => scaffoldKey.currentState!.closeDrawer(),
-                    )
-                  )
-                
-              )
-            ),
-            ListTile(
-              title: const Text('Home'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Book an Outing'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeCalendar()),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingsPage()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: Sidebar(),
       body: Stack(children: <Widget>[
           Container(
             width: double.infinity,
