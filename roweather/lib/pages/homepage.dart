@@ -74,16 +74,21 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
             )),
       Consumer<AppState>(
-              builder: (context, appstate, child) {
-                return Container(
-                  padding: const EdgeInsets.all(64.0),
-                  child: appstate.testData == ""
-                    ? CircularProgressIndicator()
-                    : Text(
-                        '${appstate.testData}',
-                      ));
-              },
-            ),
+        // Demo of using weather data in the homepage
+        builder: (context, appstate, child) {
+          return Container(
+            padding: const EdgeInsets.only(left: 64.0, top: 400.0),
+            child: appstate.flagColour == FlagColour.unknown
+              ? CircularProgressIndicator()
+              : Text(
+                  '''Flag is currently: ${appstate.flagColour == FlagColour.green ? "Green" : 
+                    appstate.flagColour == FlagColour.yellow ? "Yellow" : "Red"}
+                    
+River level (Baits Bite): ${appstate.riverLevel}m''',
+                  style: const TextStyle(color: Colors.white, fontSize: 30),
+                ));
+        },
+      ),
       ]),
     );
   }

@@ -24,7 +24,7 @@ class _FlagState extends State<Flag> {
   @override
   void initState() {
     super.initState();
-    flag = fetchFlag()
+    flag = fetchFlag();
   }
 
   Widget build(BuildContext context) {
