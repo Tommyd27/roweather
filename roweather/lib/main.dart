@@ -8,13 +8,16 @@ import 'pages/calendar.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-    create: (context) => AppState(),
-    child: BaseApp()
+      create: (context) => AppState(),
+      child: const BaseApp(),
     ),
   );
 }
 
 class BaseApp extends StatelessWidget {
+  const BaseApp({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Roweather',
