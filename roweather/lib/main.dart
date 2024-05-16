@@ -1,7 +1,7 @@
 import 'pages/appstate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'pages/calendar.dart';
+import 'pages/homepage.dart';
 
 void main() {
   runApp(
@@ -38,7 +38,7 @@ class BaseApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: BookingPage(),
+      home: MyHomePage(title: 'Roweather'),
     );
   }
 }
