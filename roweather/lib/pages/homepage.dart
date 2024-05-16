@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Demo of using weather data in the homepage
           builder: (context, appstate, child) {
             return Container(
-                padding: const EdgeInsets.only(left: 64.0, top: 200.0),
+                padding: const EdgeInsets.only(left: 64.0, top: 0.0),
                 child: appstate.flagColour == FlagColour.unknown
                     ? CircularProgressIndicator()
                     : Text(
@@ -94,13 +94,57 @@ River level (Baits Bite): ${appstate.riverLevel}m''',
         ),
         Consumer<AppState>(
           builder: (context, appstate, child) {
+            var spots = appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature)).toList();
+            var lbd = [LineChartBarData(spots: spots)];
             return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:400.0),
-              height: 500,
+              padding: const EdgeInsets.only(left: 64.0, top:400.0, right: 32.0),
+              height: 450,
+              child: LineChart(
+                LineChartData(
+                  lineBarsData: lbd,
+                  gridData: FlGridData(show: false),
+                  borderData: FlBorderData(show: false),
+                  titlesData: FlTitlesData(show: false),
+                  showingTooltipIndicators: spots.map((spot) {return ShowingTooltipIndicators([LineBarSpot(lbd[0], 0, spot)]);}).toList(),
+                  lineTouchData: LineTouchData(enabled: false, handleBuiltInTouches: false, 
+                  touchTooltipData: LineTouchTooltipData(
+                    tooltipMargin: 16.0,
+                    tooltipPadding: EdgeInsets.all(0),
+                    getTooltipColor: (_) => Color(0x00000000),
+                    getTooltipItems: (spots) => spots.map<LineTooltipItem>((spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20))).toList()
+                  )
+                  /*getTouchedSpotIndicator: (barData, spotIndexes) => barData.spots.map((spot) => TouchedSpotIndicatorData(
+                    const FlLine(
+                        color: Colors.pink,
+                      ),
+                      FlDotData(
+                        show: true,
+                        getDotPainter: (spot, percent, barData, index) =>
+                            FlDotCirclePainter(
+                          //radius: 8,
+                          color: Colors.green,
+                          //strokeWidth: 2,
+                          strokeColor: Colors.red,
+                        ),
+                      ),
+                    )).toList()*/
+                  )
+                ),
+                duration: Duration(milliseconds: 150), // Optional
+                curve: Curves.linear, // Optional
+              )
+            );
+          }
+        ),
+        Consumer<AppState>(
+          builder: (context, appstate, child) {
+            return Container(
+              padding: const EdgeInsets.only(left: 64.0, top:475.0),
+              height: 525,
               child: LineChart(
                 LineChartData(
                   lineBarsData: [LineChartBarData(spots: 
-                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature)).toList()
+                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed)).toList()
                   )],
                   gridData: FlGridData(show: false),
                   borderData: FlBorderData(show: false),
@@ -115,12 +159,36 @@ River level (Baits Bite): ${appstate.riverLevel}m''',
         Consumer<AppState>(
           builder: (context, appstate, child) {
             return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:600.0),
-              height: 700,
+              padding: const EdgeInsets.only(left: 64.0, top:550.0),
+              height: 600,
               child: LineChart(
                 LineChartData(
+                  minY: 0,
+                  maxY: 100,
                   lineBarsData: [LineChartBarData(spots: 
-                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed)).toList()
+                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover)).toList()
+                  )],
+                  gridData: FlGridData(show: false),
+                  borderData: FlBorderData(show: false),
+                  titlesData: FlTitlesData(show: false),
+                ),
+                duration: Duration(milliseconds: 150), // Optional
+                curve: Curves.linear, // Optional
+              )
+            );
+          }
+        ),
+        Consumer<AppState>(
+          builder: (context, appstate, child) {
+            return Container(
+              padding: const EdgeInsets.only(left: 64.0, top:625.0),
+              height: 675,
+              child: LineChart(
+                LineChartData(
+                  minY: 0,
+                  maxY: 100,
+                  lineBarsData: [LineChartBarData(spots: 
+                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability)).toList()
                   )],
                   gridData: FlGridData(show: false),
                   borderData: FlBorderData(show: false),

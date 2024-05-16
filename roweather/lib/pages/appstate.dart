@@ -15,7 +15,9 @@ class HourlyWeather {
   DateTime dt;
   double temperature;
   double windSpeed;
-  HourlyWeather(this.dt, this.temperature, this.windSpeed);
+  double cloudCover;
+  double precipitationProbability;
+  HourlyWeather(this.dt, this.temperature, this.windSpeed, this.cloudCover, this.precipitationProbability);
 }
 
 enum Weather { sunny, fullCloudy, partialCloudy, rainy }
@@ -74,20 +76,22 @@ class AppState with ChangeNotifier {
   "location": "42.3478, -71.0466",
   "fields": [
     "temperature",
-    "windSpeed"
+    "windSpeed",
+    "cloudCover",
+    "precipitationProbability"
   ],
   "units": "metric",
   "timesteps": [
     "1h"
   ],
   "startTime": "now",
-  "endTime": "nowPlus12h"
+  "endTime": "nowPlus6h"
 }''');
 
     if (response.statusCode != 200) throw Exception("Failure fetching weather API");
     js = jsonDecode(response.body);
     hourly = js['data']['timelines'][0]['intervals'].map<HourlyWeather>((datapoint) =>
-      HourlyWeather(DateTime.parse(datapoint['startTime']), datapoint['values']['temperature'], datapoint['values']['windSpeed'])
+      HourlyWeather(DateTime.parse(datapoint['startTime']), datapoint['values']['temperature'], datapoint['values']['windSpeed'], datapoint['values']['cloudCover'].toDouble(), datapoint['values']['precipitationProbability'].toDouble())
     ).toList();
 
     notifyListeners();
