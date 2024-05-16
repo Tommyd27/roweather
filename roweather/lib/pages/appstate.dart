@@ -11,7 +11,7 @@ class Outing {
   Outing(this.start, this.length);
 }
 
-enum Weather { sunny, fullCloudy, partialCloudy, rainy };
+enum Weather { sunny, fullCloudy, partialCloudy, rainy }
 class DayWeatherData {
   DateTime day;
   Weather weather;
