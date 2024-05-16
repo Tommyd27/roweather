@@ -35,14 +35,14 @@ class _SettingsPageState extends State<SettingsPage> {
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
         Container(
-          color: Color(0xFF436855),
+          color: const Color(0xFF436855),
           width: double.infinity,
         ),
         Positioned(
             left: 10,
             top: 20,
             child: IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),
+              icon: const Icon(Icons.menu, color: Colors.white),
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
             )),
         Padding(
@@ -50,16 +50,16 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Center(
+                const Center(
                   child: Text('Settings',
                       style: TextStyle(fontSize: 30, color: Colors.white)),
                 ),
-                Center(
+                const Center(
                   child: Text('Notifications',
                       style: TextStyle(fontSize: 24, color: Colors.white)),
                 ),
                 CheckboxListTile(
-                  title: Text("Flag Colour Changes",
+                  title: const Text("Flag Colour Changes",
                       style: TextStyle(fontSize: 18, color: Colors.white)),
                   value: flagColourIsChecked,
                   onChanged: (bool? value) {
@@ -70,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
                 CheckboxListTile(
-                  title: Text("Severe Weather Events",
+                  title: const Text("Severe Weather Events",
                       style: TextStyle(fontSize: 18, color: Colors.white)),
                   value: weatherEventsIsChecked,
                   onChanged: (bool? value) {
@@ -81,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
                 CheckboxListTile(
-                  title: Text("Change in Weather during Planned Outing",
+                  title: const Text("Change in Weather during Planned Outing",
                       style: TextStyle(fontSize: 18, color: Colors.white)),
                   value: weatherChangeIsChecked,
                   onChanged: (bool? value) {
@@ -91,11 +91,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 0, 0, 0),
                   height: 5,
                 ),
-                Center(
+                const Center(
                   child: Text('Localization Settings',
                       style: TextStyle(fontSize: 24, color: Colors.white)),
                 ),
@@ -107,21 +107,21 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: <Widget>[
                           Center(
                               child: Container(
-                                  color: Color(0xFF85B09A),
+                                  color: const Color(0xFF85B09A),
                                   child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Language',
                                       alignLabelWithHint: true,
                                       labelStyle:
                                           TextStyle(color: Colors.white),
                                     ),
-                                    style: TextStyle(color: Colors.white),
-                                    dropdownColor: Color(0xFF85B09A),
+                                    style: const TextStyle(color: Colors.white),
+                                    dropdownColor: const Color(0xFF85B09A),
                                     value: languageDropdownValue,
                                     icon: const Icon(Icons.arrow_downward),
                                     iconSize: 24,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
                                     elevation: 16,
                                     alignment: Alignment.center,
                                     onChanged: (String? newValue) {
@@ -144,19 +144,20 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ))),
                           Center(
                             child: Container(
-                                color: Color(0xFF85B09A),
+                                color: const Color(0xFF85B09A),
                                 child: DropdownButtonFormField<String>(
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     labelText: 'Timezone',
                                     alignLabelWithHint: true,
                                     labelStyle: TextStyle(color: Colors.white),
                                   ),
-                                  style: TextStyle(color: Colors.white),
-                                  dropdownColor: Color(0xFF85B09A),
+                                  style: const TextStyle(color: Colors.white),
+                                  dropdownColor: const Color(0xFF85B09A),
                                   value: timeZoneDropdownValue,
                                   icon: const Icon(Icons.arrow_downward),
                                   iconSize: 24,
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   elevation: 16,
                                   alignment: Alignment.center,
                                   onChanged: (String? newValue) {
@@ -187,21 +188,21 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: <Widget>[
                           Center(
                               child: Container(
-                                  color: Color(0xFF85B09A),
+                                  color: const Color(0xFF85B09A),
                                   child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Speed',
                                       alignLabelWithHint: true,
                                       labelStyle:
                                           TextStyle(color: Colors.white),
                                     ),
-                                    style: TextStyle(color: Colors.white),
-                                    dropdownColor: Color(0xFF85B09A),
+                                    style: const TextStyle(color: Colors.white),
+                                    dropdownColor: const Color(0xFF85B09A),
                                     value: speedDropDownValue,
                                     icon: const Icon(Icons.arrow_downward),
                                     iconSize: 24,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
                                     elevation: 16,
                                     alignment: Alignment.center,
                                     onChanged: (String? newValue) {
@@ -220,21 +221,21 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ))),
                           Center(
                               child: Container(
-                                  color: Color(0xFF85B09A),
+                                  color: const Color(0xFF85B09A),
                                   child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Temperature',
                                       alignLabelWithHint: true,
                                       labelStyle:
                                           TextStyle(color: Colors.white),
                                     ),
-                                    style: TextStyle(color: Colors.white),
-                                    dropdownColor: Color(0xFF85B09A),
+                                    style: const TextStyle(color: Colors.white),
+                                    dropdownColor: const Color(0xFF85B09A),
                                     value: temperateDropDownValue,
                                     icon: const Icon(Icons.arrow_downward),
                                     iconSize: 24,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
                                     elevation: 16,
                                     alignment: Alignment.center,
                                     onChanged: (String? newValue) {
@@ -253,21 +254,21 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ))),
                           Center(
                               child: Container(
-                                  color: Color(0xFF85B09A),
+                                  color: const Color(0xFF85B09A),
                                   child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Height',
                                       alignLabelWithHint: true,
                                       labelStyle:
                                           TextStyle(color: Colors.white),
                                     ),
-                                    style: TextStyle(color: Colors.white),
-                                    dropdownColor: Color(0xFF85B09A),
+                                    style: const TextStyle(color: Colors.white),
+                                    dropdownColor: const Color(0xFF85B09A),
                                     value: heightDropDownValue,
                                     icon: const Icon(Icons.arrow_downward),
                                     iconSize: 24,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
                                     elevation: 16,
                                     alignment: Alignment.center,
                                     onChanged: (String? newValue) {
@@ -290,11 +291,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ],
                 )),
-                Divider(
+                const Divider(
                   color: Color.fromARGB(255, 0, 0, 0),
                   height: 5,
                 ),
-                Center(
+                const Center(
                   child: Text('Account Settings',
                       style: TextStyle(fontSize: 24, color: Colors.white)),
                 ),
@@ -303,7 +304,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     Provider.of<AppState>(context, listen: false)
                         .deleteOutings();
                   },
-                  child: Text('Delete Outing Data'),
+                  child: const Text('Delete Outing Data'),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -314,7 +315,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     Provider.of<AppState>(context, listen: false)
                         .deleteOutings();
                   },
-                  child: Text('Delete Account Data'),
+                  child: const Text('Delete Account Data'),
                 )
               ],
             ))
