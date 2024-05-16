@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sections/sidebar.dart';
 import 'sections/nextfewdays.dart';
+import 'sections/selectedDay.dart';
 import 'sections/carousel.dart';
 import 'package:provider/provider.dart';
 import 'appstate.dart';
@@ -64,10 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.6,
                   ])),
         ),
-        Center(
-          //child: NextFewDays(),
-          child: Carousel()
-        ),
+        Column(children: <Widget>[
+          Center(
+            //child: NextFewDays(),
+            child: Carousel()
+          ),
+          Center(child: SelectedDay()),
+        ]),
         Positioned(
             left: 10,
             top: 20,
