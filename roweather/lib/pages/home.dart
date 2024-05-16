@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'sections/calendar.dart';
+import 'calendar.dart';
 import 'sections/settings.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeCalendar()),
+                  MaterialPageRoute(builder: (context) => BookingPage()),
                 );
               },
             ),

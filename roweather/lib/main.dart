@@ -1,10 +1,10 @@
 import 'pages/homepage.dart';
 import 'pages/appstate.dart';
+import 'pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/home.dart';
-import 'pages/sections/timeSelector.dart';
-import 'pages/sections/timeWheel.dart';
+import 'pages/calendar.dart';
 
 void main() {
   runApp(
@@ -39,11 +39,6 @@ class BaseApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Roweather Home Page'),
-    );
-  }
-}
-
-      home: TimeSelector()//MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -113,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeCalendar()),
+                  MaterialPageRoute(builder: (context) => BookingPage()),
                 );
               },
             ),
