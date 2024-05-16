@@ -1,6 +1,4 @@
-import 'pages/homepage.dart';
 import 'pages/appstate.dart';
-import 'pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/calendar.dart';
