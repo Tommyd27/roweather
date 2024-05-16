@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'sections/sidebar.dart';
+import 'appstate.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -298,7 +300,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Put your code here that will be executed when the button is pressed
+                    Provider.of<AppState>(context, listen: false)
+                        .deleteOutings();
                   },
                   child: Text('Delete Outing Data'),
                 ),
@@ -308,7 +311,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () {
-                    // Put your code here that will be executed when the button is pressed
+                    Provider.of<AppState>(context, listen: false)
+                        .deleteOutings();
                   },
                   child: Text('Delete Account Data'),
                 )
