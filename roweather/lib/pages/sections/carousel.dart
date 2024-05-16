@@ -12,7 +12,7 @@ class Carousel extends StatefulWidget {
 class _CarouselState extends State<Carousel> {
   List<Widget> carouselDays = [
     Container(
-      color: Colors.red,
+      color: Color(0xff85B09A),
       child: Center(
         child: Text('Widget 1'),
       ),
