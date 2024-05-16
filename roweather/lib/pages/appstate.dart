@@ -11,11 +11,20 @@ class Outing {
   Outing(this.start, this.length);
 }
 
+class HourlyWeather {
+  DateTime dt;
+  double temperature;
+  double windSpeed;
+  HourlyWeather(this.dt, this.temperature, this.windSpeed);
+}
+
 class AppState with ChangeNotifier {
   int? temperature;
   FlagColour flagColour = FlagColour.unknown;
   double? riverLevel;
   final outings = <Outing>[];
+  DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
+  var hourly = <HourlyWeather>[];
 
   AppState() {
     _fetchWeather();
@@ -49,6 +58,28 @@ class AppState with ChangeNotifier {
     if (response.statusCode != 200) throw Exception("Failure fetching weather API");
     var js = jsonDecode(response.body);
     riverLevel = js['items'][0]['latestReading']['value'];
+
+    
+    response = await http.post(Uri.parse("https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"), 
+    body: '''{
+  "location": "42.3478, -71.0466",
+  "fields": [
+    "temperature",
+    "windSpeed"
+  ],
+  "units": "metric",
+  "timesteps": [
+    "1h"
+  ],
+  "startTime": "now",
+  "endTime": "nowPlus12h"
+}''');
+
+    if (response.statusCode != 200) throw Exception("Failure fetching weather API");
+    js = jsonDecode(response.body);
+    hourly = js['data']['timelines'][0]['intervals'].map<HourlyWeather>((datapoint) =>
+      HourlyWeather(DateTime.parse(datapoint['startTime']), datapoint['values']['temperature'], datapoint['values']['windSpeed'])
+    ).toList();
 
     notifyListeners();
   }

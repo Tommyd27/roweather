@@ -41,6 +41,7 @@ dependencies:
   http: ^1.2.1
   xml: ^6.5.0
   carousel_slider: ^4.2.1
+  fl_chart: ^0.68.0
 
 dev_dependencies:
   flutter_test:
