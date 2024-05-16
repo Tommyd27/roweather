@@ -12,6 +12,8 @@ class Sidebar extends StatelessWidget {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
+          /*
+          close icon crashes right now
           SizedBox(
               height: 100,
               child: DrawerHeader(
@@ -26,6 +28,7 @@ class Sidebar extends StatelessWidget {
                         onPressed: () =>
                             scaffoldKey.currentState!.closeDrawer(),
                       )))),
+          */
           ListTile(
             title: const Text('Home'),
             onTap: () {
@@ -41,7 +44,7 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomeCalendar()),
+                MaterialPageRoute(builder: (context) => BookingPage()),
               );
             },
           ),
