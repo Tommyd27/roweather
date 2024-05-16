@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_options.dart';
 
 class Carousel extends StatefulWidget {
   const Carousel({super.key});
@@ -36,12 +37,12 @@ class _CarouselState extends State<Carousel> {
           builder: (BuildContext context) {
             return GestureDetector(
               onTap: () {
-                int index = carouselDays.indexOf(widget);
+                int index = carouselDays.indexOf(dayWidget);
                 _handleCarouselItemClick(index);
               },
               child: Container(
                 margin: EdgeInsets.all(5.0),
-                child: widget,
+                child: dayWidget,
               ),
             );
           },
