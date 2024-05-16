@@ -12,9 +12,9 @@ class Outing {
 }
 
 class AppState with ChangeNotifier {
-  int temperature = 0;
+  int? temperature;
   FlagColour flagColour = FlagColour.unknown;
-  double riverLevel = 0;
+  double? riverLevel;
   final outings = <Outing>[];
 
   AppState() {
@@ -23,20 +23,16 @@ class AppState with ChangeNotifier {
 
   Future<void> _fetchWeather() async {
     var response = await http.get(Uri.parse('http://m.cucbc.org/'));
-    if (response.statusCode == 200) {
-      final body = response.body;
-      final re = RegExp(r'(?<=\<strong\>)(.*)(?=\</strong\>)');
-      var colour = re.firstMatch(body)?.group(0);
-      temperature = 10;
-      if (colour != null) {
-        switch (colour) {
-          case "Green": flagColour = FlagColour.green;
-          case "Yellow": flagColour = FlagColour.yellow;
-          case "Red": flagColour = FlagColour.red;
-        }
-      }
-    } else {
-      throw Exception("Failure fetching CUCBC api"); 
+    if (response.statusCode != 200) throw Exception("Failure fetching CUCBC API");
+
+    final body = response.body;
+    final re = RegExp(r'(?<=\<strong\>)(.*)(?=\</strong\>)');
+    var colour = re.firstMatch(body)?.group(0);
+    if (colour == null) throw Exception("Failure parsing CUCBC API");
+    switch (colour) {
+      case "Green": flagColour = FlagColour.green;
+      case "Yellow": flagColour = FlagColour.yellow;
+      case "Red": flagColour = FlagColour.red;
     }
 
     // Environment Agency API river levels
@@ -50,14 +46,11 @@ class AppState with ChangeNotifier {
       E24028 - Jesus Lock Sluice
     */
     response = await http.get(Uri.parse('https://environment.data.gov.uk/flood-monitoring/id/stations/E60101/measures'));
-    if (response.statusCode == 200) {
-      var js = jsonDecode(response.body);
-
-      riverLevel = js['items'][0]['latestReading']['value'];
-    }
+    if (response.statusCode != 200) throw Exception("Failure fetching weather API");
+    var js = jsonDecode(response.body);
+    riverLevel = js['items'][0]['latestReading']['value'];
 
     notifyListeners();
-
   }
 
   void addOuting(DateTime start, Duration length) {

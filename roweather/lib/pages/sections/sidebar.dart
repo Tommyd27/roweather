@@ -41,7 +41,7 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomeCalendar()),
+                MaterialPageRoute(builder: (context) => BookingPage()),
               );
             },
           ),
