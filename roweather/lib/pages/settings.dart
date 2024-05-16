@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'sections/sidebar.dart';
 import 'appstate.dart';
@@ -52,11 +53,17 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 const Center(
                   child: Text('Settings',
-                      style: TextStyle(fontSize: 30, color: Colors.white)),
+                      style: TextStyle(
+                          fontSize: 50,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
                 const Center(
                   child: Text('Notifications',
-                      style: TextStyle(fontSize: 24, color: Colors.white)),
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
                 CheckboxListTile(
                   title: const Text("Flag Colour Changes",
@@ -97,7 +104,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const Center(
                   child: Text('Localization Settings',
-                      style: TextStyle(fontSize: 24, color: Colors.white)),
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
                 IntrinsicHeight(
                     child: Row(
@@ -297,7 +307,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const Center(
                   child: Text('Account Settings',
-                      style: TextStyle(fontSize: 24, color: Colors.white)),
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -315,7 +328,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     Provider.of<AppState>(context, listen: false)
                         .deleteOutings();
                   },
-                  child: const Text('Delete Account Data'),
+                  child: const Text('Delete Account Data',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 )
               ],
             ))
