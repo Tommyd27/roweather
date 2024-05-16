@@ -29,6 +29,9 @@ class Sidebar extends StatelessWidget {
                             scaffoldKey.currentState!.closeDrawer(),
                       )))),
           */
+          SizedBox(
+            height: 60,
+          ),
           ListTile(
             title: const Text('Home'),
             onTap: () {
