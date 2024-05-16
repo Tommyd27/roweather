@@ -5,6 +5,7 @@ import 'sections/selectedDay.dart';
 import 'sections/carousel.dart';
 import 'package:provider/provider.dart';
 import 'appstate.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // Demo of using weather data in the homepage
           builder: (context, appstate, child) {
             return Container(
-                padding: const EdgeInsets.only(left: 64.0, top: 400.0),
+                padding: const EdgeInsets.only(left: 64.0, top: 200.0),
                 child: appstate.flagColour == FlagColour.unknown
                     ? CircularProgressIndicator()
                     : Text(
@@ -95,6 +96,46 @@ River level (Baits Bite): ${appstate.riverLevel}m''',
                       ));
           },
         ),
+        Consumer<AppState>(
+          builder: (context, appstate, child) {
+            return Container(
+              padding: const EdgeInsets.only(left: 64.0, top:400.0),
+              height: 500,
+              child: LineChart(
+                LineChartData(
+                  lineBarsData: [LineChartBarData(spots: 
+                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature)).toList()
+                  )],
+                  gridData: FlGridData(show: false),
+                  borderData: FlBorderData(show: false),
+                  titlesData: FlTitlesData(show: false),
+                ),
+                duration: Duration(milliseconds: 150), // Optional
+                curve: Curves.linear, // Optional
+              )
+            );
+          }
+        ),
+        Consumer<AppState>(
+          builder: (context, appstate, child) {
+            return Container(
+              padding: const EdgeInsets.only(left: 64.0, top:600.0),
+              height: 700,
+              child: LineChart(
+                LineChartData(
+                  lineBarsData: [LineChartBarData(spots: 
+                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed)).toList()
+                  )],
+                  gridData: FlGridData(show: false),
+                  borderData: FlBorderData(show: false),
+                  titlesData: FlTitlesData(show: false),
+                ),
+                duration: Duration(milliseconds: 150), // Optional
+                curve: Curves.linear, // Optional
+              )
+            );
+          }
+        )
       ]),
     );
   }

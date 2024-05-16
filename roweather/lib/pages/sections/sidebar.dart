@@ -12,6 +12,8 @@ class Sidebar extends StatelessWidget {
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
+          /*
+          close icon crashes right now
           SizedBox(
               height: 100,
               child: DrawerHeader(
@@ -26,6 +28,10 @@ class Sidebar extends StatelessWidget {
                         onPressed: () =>
                             scaffoldKey.currentState!.closeDrawer(),
                       )))),
+          */
+          SizedBox(
+            height: 60,
+          ),
           ListTile(
             title: const Text('Home'),
             onTap: () {
