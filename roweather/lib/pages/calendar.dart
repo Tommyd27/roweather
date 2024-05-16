@@ -339,6 +339,13 @@ DateTime? selectedCalendarDate;
                         side: BorderSide(color: Color(0xff85B09A), width: 2.0)
                       )
                     ),
+              TextButton(
+              style: ButtonStyle(
+                foregroundColor: Color(0xffA6C5B5),
+              ),
+              onPressed: () { },
+              child: Text('Book'),
+              )
             ],
           ),
         ),
