@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sections/sidebar.dart';
 import 'sections/nextfewdays.dart';
+import 'sections/carousel.dart';
 import 'package:provider/provider.dart';
 import 'appstate.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -65,7 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ])),
         ),
         Center(
-          child: NextFewDays(),
+          //child: NextFewDays(),
+          child: Carousel()
         ),
         Positioned(
             left: 10,

@@ -1,18 +1,21 @@
-import 'pages/homepage.dart';
 import 'pages/appstate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'pages/calendar.dart';
 
 void main() {
   runApp(
     ChangeNotifierProvider(
-    create: (context) => AppState(),
-    child: BaseApp()
+      create: (context) => AppState(),
+      child: const BaseApp(),
     ),
   );
 }
 
 class BaseApp extends StatelessWidget {
+  const BaseApp({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Roweather',
@@ -35,7 +38,7 @@ class BaseApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Roweather Home Page'),
+      home: BookingPage(),
     );
   }
 }

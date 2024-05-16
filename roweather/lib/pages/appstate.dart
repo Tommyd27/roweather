@@ -18,10 +18,19 @@ class HourlyWeather {
   HourlyWeather(this.dt, this.temperature, this.windSpeed);
 }
 
+enum Weather { sunny, fullCloudy, partialCloudy, rainy }
+class DayWeatherData {
+  DateTime day;
+  Weather weather;
+  DayWeatherData(this.day, this.weather);
+}
+
 class AppState with ChangeNotifier {
   int? temperature;
   FlagColour flagColour = FlagColour.unknown;
   double? riverLevel;
+  List<DayWeatherData> nextFewDays = <DayWeatherData>[DayWeatherData(DateTime(2024, 5, 20), Weather.sunny), DayWeatherData(DateTime(2024, 5, 21), Weather.partialCloudy), DayWeatherData(DateTime(2024, 5, 22), Weather.rainy)];
+
   final outings = <Outing>[];
   DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
   var hourly = <HourlyWeather>[];
