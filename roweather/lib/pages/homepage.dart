@@ -71,10 +71,10 @@ class _MyHomePageState extends State<MyHomePage> {
           left: 0,
           right: 0,
           child: Column(children: <Widget>[
-          // Center(
-          //   //child: NextFewDays(),
-          //   child: NextDaysCarousel()
-          // ),
+          Container(
+            height: 120,
+            child: NextDaysCarousel(),
+          ),
           Center(child: SelectedDay()),
         ])),
         
