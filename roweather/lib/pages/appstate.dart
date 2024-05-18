@@ -49,8 +49,7 @@ class AppState with ChangeNotifier {
   Future<void> _fetchWeather() async {
     try {
       var response = await http.get(Uri.parse('http://m.cucbc.org/'));
-      if (response.statusCode != 200)
-      throw Exception("Failure fetching CUCBC API");
+      if (response.statusCode != 200) throw Exception("Failure fetching CUCBC API");
 
       final body = response.body;
       final re = RegExp(r'(?<=\<strong\>)(.*)(?=\</strong\>)');
@@ -78,40 +77,41 @@ class AppState with ChangeNotifier {
       */
       response = await http.get(Uri.parse(
         'https://environment.data.gov.uk/flood-monitoring/id/stations/E60101/measures'));
-      if (response.statusCode != 200)
-      throw Exception("Failure fetching weather API");
+      if (response.statusCode != 200) throw Exception("Failure fetching weather API");
       var js = jsonDecode(response.body);
       riverLevel = js['items'][0]['latestReading']['value'];
     
     
 
-    response = await http.post(
+      response = await http.post(
         Uri.parse(
             "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
         body: '''{
-  "location": "42.3478, -71.0466",
-  "fields": [
-    "temperature",
-    "windSpeed",
-    "cloudCover",
-    "precipitationProbability"
-  ],
-  "units": "metric",
-  "timesteps": [
-    "1h"
-  ],
-  "startTime": "now",
-  "endTime": "nowPlus6h"
-}''');
+              "location": "42.3478, -71.0466",
+              "fields": [
+                "temperature",
+                "windSpeed",
+                "cloudCover",
+                "precipitationProbability"
+              ],
+              "units": "metric",
+              "timesteps": [
+                "1h"
+              ],
+              "startTime": "now",
+              "endTime": "nowPlus6h"
+            }''');
 
-    if (response.statusCode != 200)
-      throw Exception("Failure fetching weather API");
-    js = jsonDecode(response.body);
-    hourly = js['data']['timelines'][0]['intervals'].map<HourlyWeather>((datapoint) =>
-      HourlyWeather(DateTime.parse(datapoint['startTime']), datapoint['values']['temperature'], datapoint['values']['windSpeed'], datapoint['values']['cloudCover'].toDouble(), datapoint['values']['precipitationProbability'].toDouble())
-    ).toList();
+      if (response.statusCode != 200) throw Exception("Failure fetching weather API");
+      js = jsonDecode(response.body);
+      hourly = js['data']['timelines'][0]['intervals'].map<HourlyWeather>((datapoint) =>
+        HourlyWeather(DateTime.parse(datapoint['startTime']), datapoint['values']['temperature'], datapoint['values']['windSpeed'], datapoint['values']['cloudCover'].toDouble(), datapoint['values']['precipitationProbability'].toDouble())
+      ).toList();
 
-    notifyListeners();
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
   }
 
   void addOuting(DateTime start, Duration length) {
