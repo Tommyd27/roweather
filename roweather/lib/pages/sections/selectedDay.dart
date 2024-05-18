@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../appstate.dart';
+import 'package:intl/intl.dart';
 
 class TextComponent extends StatelessWidget {
   final String mainText;
@@ -41,9 +44,12 @@ class TextComponent extends StatelessWidget {
 class SelectedDay extends StatelessWidget {
   SelectedDay({super.key});
 
+  var formatter = NumberFormat("#0.0");
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Consumer<AppState>(builder: (context, appstate, child) {
+      return Container(
         margin: const EdgeInsets.all(20),
         child: Column(children: [
           Row(
@@ -59,10 +65,12 @@ class SelectedDay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 TextComponent("7.7", sideUpText: "UV"),
-                TextComponent("3.5", sideUpText: "M", sideDownText: "River Level")
+                TextComponent(formatter.format(appstate.riverLevel ?? 0), sideUpText: "M", sideDownText: "River Level")
               ])
             )
           
         ]));
+    }); 
+    
   }
 }
