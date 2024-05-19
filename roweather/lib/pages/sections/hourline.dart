@@ -6,10 +6,12 @@ import 'package:fl_chart/fl_chart.dart';
 class HourLine extends LineChart {
 
   
-  HourLine(appstate) : 
+  HourLine(appstate, dataF, tooltipF, {minY, maxY}) : 
     super(() { 
-      final lbd = LineChartBarData(spots: appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature)).toList());
+      final lbd = LineChartBarData(spots: appstate.hourly.map<FlSpot>(dataF).toList());
       return LineChartData(
+        minY: minY,
+        maxY: maxY,
         lineBarsData: [lbd],
         gridData: FlGridData(show: false),
         borderData: FlBorderData(show: false),
@@ -20,7 +22,7 @@ class HourLine extends LineChart {
           tooltipMargin: 16.0,
           tooltipPadding: EdgeInsets.all(0),
           getTooltipColor: (_) => Color(0x00000000),
-          getTooltipItems: (spots) => spots.map<LineTooltipItem>((spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20))).toList()
+          getTooltipItems: (spots) => spots.map<LineTooltipItem>(tooltipF).toList()
         )
         /*getTouchedSpotIndicator: (barData, spotIndexes) => barData.spots.map((spot) => TouchedSpotIndicatorData(
           const FlLine(

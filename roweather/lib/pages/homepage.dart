@@ -106,72 +106,39 @@ River level (Baits Bite): ${appstate.riverLevel}m''',
         Consumer<AppState>(builder: (context, appstate, child) => Container(
           padding: const EdgeInsets.only(left: 64.0, top:400.0, right: 32.0),
           height: 450,
-          child: HourLine(appstate)
+          child: HourLine(
+            appstate,
+            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature),
+            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+          )
         )),
-        Consumer<AppState>(
-          builder: (context, appstate, child) {
-            return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:475.0),
-              height: 525,
-              child: LineChart(
-                LineChartData(
-                  lineBarsData: [LineChartBarData(spots: 
-                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed)).toList()
-                  )],
-                  gridData: FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(show: false),
-                ),
-                duration: Duration(milliseconds: 150), // Optional
-                curve: Curves.linear, // Optional
-              )
-            );
-          }
-        ),
-        Consumer<AppState>(
-          builder: (context, appstate, child) {
-            return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:550.0),
-              height: 600,
-              child: LineChart(
-                LineChartData(
-                  minY: 0,
-                  maxY: 100,
-                  lineBarsData: [LineChartBarData(spots: 
-                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover)).toList()
-                  )],
-                  gridData: FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(show: false),
-                ),
-                duration: Duration(milliseconds: 150), // Optional
-                curve: Curves.linear, // Optional
-              )
-            );
-          }
-        ),
-        Consumer<AppState>(
-          builder: (context, appstate, child) {
-            return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:625.0),
-              height: 675,
-              child: LineChart(
-                LineChartData(
-                  minY: 0,
-                  maxY: 100,
-                  lineBarsData: [LineChartBarData(spots: 
-                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability)).toList()
-                  )],
-                  gridData: FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(show: false),
-                ),
-                duration: Duration(milliseconds: 150), // Optional
-                curve: Curves.linear, // Optional
-              )
-            );
-          }
-        )
+        Consumer<AppState>(builder: (context, appstate, child) => Container(
+          padding: const EdgeInsets.only(left: 64.0, top:475.0, right: 32.0),
+          height: 525,
+          child: HourLine(
+            appstate,
+            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed),
+            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+          )
+        )),
+        Consumer<AppState>(builder: (context, appstate, child) => Container(
+          padding: const EdgeInsets.only(left: 64.0, top:550.0, right: 32.0),
+          height: 600,
+          child: HourLine(
+            appstate,
+            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover),
+            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+          )
+        )),
+        Consumer<AppState>(builder: (context, appstate, child) => Container(
+          padding: const EdgeInsets.only(left: 64.0, top:550.0, right: 32.0),
+          height: 600,
+          child: HourLine(
+            appstate,
+            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability),
+            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+          )
+        )),
       ]),
     );
   }
