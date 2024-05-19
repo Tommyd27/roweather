@@ -1,4 +1,7 @@
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
 import 'dart:convert';
@@ -6,16 +9,16 @@ import 'dart:convert';
 enum FlagColour { unknown, red, yellow, green }
 
 class Outing {
-  DateTime start;
-  Duration length;
-  Outing(this.start, this.length);
+  final TimeOfDay start;
+  final TimeOfDay end;
+  Outing({required this.start, required this.end});
 }
 
 class AppState with ChangeNotifier {
   int? temperature;
   FlagColour flagColour = FlagColour.unknown;
   double? riverLevel;
-  final outings = <Outing>[];
+  final HashMap<DateTime, List<Outing>> outings = HashMap();
 
   AppState() {
     _fetchWeather();
@@ -53,7 +56,29 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
-  void addOuting(DateTime start, Duration length) {
-    outings.add(Outing(start, length));
+  bool addOuting(DateTime key, TimeOfDay start, TimeOfDay end) {
+    Outing newO = Outing(start: start, end: end);
+    if (outings[key] == null) {
+      outings.addAll({key: [newO]});
+      return true;
+    } else {
+      for (Outing outing in outings[key]!){
+        if (isAfter(start, outing.start) && isAfter(outing.start, end) || isAfter(start, outing.end) && isAfter(outing.end, end)) {
+          return false;
+        }
+      }
+      outings[key]!.add(newO);
+      return true;
+    }
+  }
+  bool isAfter(TimeOfDay t1, TimeOfDay t2) {
+    if (t2.hour > t1.hour) {
+      return true;
+    } else if (t1.hour < t2.hour){
+      return false;
+    } else if (t1.minute > t2.minute) {
+      return false;
+    }
+    return true;
   }
 }
