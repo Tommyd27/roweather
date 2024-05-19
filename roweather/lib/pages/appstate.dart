@@ -47,7 +47,6 @@ class AppState with ChangeNotifier {
   }
 
   Future<void> _fetchWeather() async {
-    try {
       var response = await http.get(Uri.parse('http://m.cucbc.org/'));
       if (response.statusCode != 200)
       throw Exception("Failure fetching CUCBC API");
