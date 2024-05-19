@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'sections/sidebar.dart';
+import 'appstate.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -18,8 +21,14 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _isChecked = false;
-  String dropdownValue = 'One';
+  bool flagColourIsChecked = false;
+  bool weatherEventsIsChecked = false;
+  bool weatherChangeIsChecked = false;
+  String languageDropdownValue = 'English';
+  String timeZoneDropdownValue = 'BST';
+  String speedDropDownValue = 'KM/H';
+  String temperateDropDownValue = 'Celsius';
+  String heightDropDownValue = 'Meters';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,14 +36,14 @@ class _SettingsPageState extends State<SettingsPage> {
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
         Container(
-          color: Colors.green,
+          color: const Color(0xFF436855),
           width: double.infinity,
         ),
         Positioned(
             left: 10,
             top: 20,
             child: IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),
+              icon: const Icon(Icons.menu, color: Colors.white),
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
             )),
         Padding(
@@ -42,49 +51,63 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Center(
-                  child: Text('Settings', style: TextStyle(fontSize: 30)),
+                const Center(
+                  child: Text('Settings',
+                      style: TextStyle(
+                          fontSize: 50,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
-                Center(
-                  child: Text('Notifications', style: TextStyle(fontSize: 24)),
+                const Center(
+                  child: Text('Notifications',
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
                 CheckboxListTile(
-                  title: Text("Flag Colour Changes"),
-                  value: _isChecked,
+                  title: const Text("Flag Colour Changes",
+                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                  value: flagColourIsChecked,
                   onChanged: (bool? value) {
                     setState(() {
-                      _isChecked = value!;
+                      flagColourIsChecked = value!;
                     });
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
                 CheckboxListTile(
-                  title: Text("Severe Weather Events"),
-                  value: _isChecked,
+                  title: const Text("Severe Weather Events",
+                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                  value: weatherEventsIsChecked,
                   onChanged: (bool? value) {
                     setState(() {
-                      _isChecked = value!;
+                      weatherEventsIsChecked = value!;
                     });
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
                 CheckboxListTile(
-                  title: Text("Change in Weather during Planned Outing"),
-                  value: _isChecked,
+                  title: const Text("Change in Weather during Planned Outing",
+                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                  value: weatherChangeIsChecked,
                   onChanged: (bool? value) {
                     setState(() {
-                      _isChecked = value!;
+                      weatherChangeIsChecked = value!;
                     });
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
-                Divider(
-                  color: const Color.fromARGB(255, 174, 19, 19),
+                const Divider(
+                  color: Color.fromARGB(255, 0, 0, 0),
                   height: 5,
                 ),
-                Center(
+                const Center(
                   child: Text('Localization Settings',
-                      style: TextStyle(fontSize: 24)),
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
                 IntrinsicHeight(
                     child: Row(
@@ -93,40 +116,76 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: Column(
                         children: <Widget>[
                           Center(
-                              child: DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              labelText: 'Choose an option',
-                              alignLabelWithHint: true,
-                            ),
-                            value: dropdownValue,
-                            icon: const Icon(Icons.arrow_downward),
-                            iconSize: 24,
-                            elevation: 16,
-                            style: const TextStyle(color: Colors.deepPurple),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownValue = newValue!;
-                              });
-                            },
-                            items: <String>['One', 'Two', 'Three', 'Four']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )),
-                          CheckboxListTile(
-                            title: Text("Checkbox 2"),
-                            value: _isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _isChecked = value!;
-                              });
-                            },
-                            controlAffinity: ListTileControlAffinity.leading,
-                          ),
-                          // Add more checkboxes as needed
+                              child: Container(
+                                  color: const Color(0xFF85B09A),
+                                  child: DropdownButtonFormField<String>(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Language',
+                                      alignLabelWithHint: true,
+                                      labelStyle:
+                                          TextStyle(color: Colors.white),
+                                    ),
+                                    style: const TextStyle(color: Colors.white),
+                                    dropdownColor: const Color(0xFF85B09A),
+                                    value: languageDropdownValue,
+                                    icon: const Icon(Icons.arrow_downward),
+                                    iconSize: 24,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    elevation: 16,
+                                    alignment: Alignment.center,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        languageDropdownValue = newValue!;
+                                      });
+                                    },
+                                    items: <String>[
+                                      'English',
+                                      'American',
+                                      'Canadian',
+                                      'Australian'
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ))),
+                          Center(
+                            child: Container(
+                                color: const Color(0xFF85B09A),
+                                child: DropdownButtonFormField<String>(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Timezone',
+                                    alignLabelWithHint: true,
+                                    labelStyle: TextStyle(color: Colors.white),
+                                  ),
+                                  style: const TextStyle(color: Colors.white),
+                                  dropdownColor: const Color(0xFF85B09A),
+                                  value: timeZoneDropdownValue,
+                                  icon: const Icon(Icons.arrow_downward),
+                                  iconSize: 24,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  elevation: 16,
+                                  alignment: Alignment.center,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      timeZoneDropdownValue = newValue!;
+                                    });
+                                  },
+                                  items: <String>['BST', 'UTC', 'GMT']
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                )),
+                            // Add more checkboxes as needed
+                          )
                         ],
                       ),
                     ),
@@ -137,61 +196,140 @@ class _SettingsPageState extends State<SettingsPage> {
                     Expanded(
                       child: Column(
                         children: <Widget>[
-                          CheckboxListTile(
-                            title: Text("Checkbox 3"),
-                            value: _isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _isChecked = value!;
-                              });
-                            },
-                            controlAffinity: ListTileControlAffinity.leading,
-                          ),
-                          CheckboxListTile(
-                            title: Text("Checkbox 4"),
-                            value: _isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _isChecked = value!;
-                              });
-                            },
-                            controlAffinity: ListTileControlAffinity.leading,
-                          ),
-                          CheckboxListTile(
-                            title: Text("Checkbox 5"),
-                            value: _isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _isChecked = value!;
-                              });
-                            },
-                            controlAffinity: ListTileControlAffinity.leading,
-                          ),
+                          Center(
+                              child: Container(
+                                  color: const Color(0xFF85B09A),
+                                  child: DropdownButtonFormField<String>(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Speed',
+                                      alignLabelWithHint: true,
+                                      labelStyle:
+                                          TextStyle(color: Colors.white),
+                                    ),
+                                    style: const TextStyle(color: Colors.white),
+                                    dropdownColor: const Color(0xFF85B09A),
+                                    value: speedDropDownValue,
+                                    icon: const Icon(Icons.arrow_downward),
+                                    iconSize: 24,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    elevation: 16,
+                                    alignment: Alignment.center,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        speedDropDownValue = newValue!;
+                                      });
+                                    },
+                                    items: <String>['KM/H', 'MPH']
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ))),
+                          Center(
+                              child: Container(
+                                  color: const Color(0xFF85B09A),
+                                  child: DropdownButtonFormField<String>(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Temperature',
+                                      alignLabelWithHint: true,
+                                      labelStyle:
+                                          TextStyle(color: Colors.white),
+                                    ),
+                                    style: const TextStyle(color: Colors.white),
+                                    dropdownColor: const Color(0xFF85B09A),
+                                    value: temperateDropDownValue,
+                                    icon: const Icon(Icons.arrow_downward),
+                                    iconSize: 24,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    elevation: 16,
+                                    alignment: Alignment.center,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        temperateDropDownValue = newValue!;
+                                      });
+                                    },
+                                    items: <String>['Celsius', 'Fahrenheit']
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ))),
+                          Center(
+                              child: Container(
+                                  color: const Color(0xFF85B09A),
+                                  child: DropdownButtonFormField<String>(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Height',
+                                      alignLabelWithHint: true,
+                                      labelStyle:
+                                          TextStyle(color: Colors.white),
+                                    ),
+                                    style: const TextStyle(color: Colors.white),
+                                    dropdownColor: const Color(0xFF85B09A),
+                                    value: heightDropDownValue,
+                                    icon: const Icon(Icons.arrow_downward),
+                                    iconSize: 24,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    elevation: 16,
+                                    alignment: Alignment.center,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        heightDropDownValue = newValue!;
+                                      });
+                                    },
+                                    items: <String>['Meters', 'Feet']
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ))),
                           // Add more checkboxes as needed
                         ],
                       ),
                     ),
                   ],
                 )),
-                Divider(
-                  color: const Color.fromARGB(255, 174, 19, 19),
+                const Divider(
+                  color: Color.fromARGB(255, 0, 0, 0),
                   height: 5,
                 ),
-                Center(
-                  child:
-                      Text('Account Settings', style: TextStyle(fontSize: 24)),
+                const Center(
+                  child: Text('Account Settings',
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Put your code here that will be executed when the button is pressed
+                    Provider.of<AppState>(context, listen: false)
+                        .deleteOutings();
                   },
-                  child: Text('Click me'),
+                  child: const Text('Delete Outing Data'),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                  ),
                   onPressed: () {
-                    // Put your code here that will be executed when the button is pressed
+                    Provider.of<AppState>(context, listen: false)
+                        .deleteOutings();
                   },
-                  child: Text('Click me'),
+                  child: const Text('Delete Account Data',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 )
               ],
             ))

@@ -1,20 +1,22 @@
-import 'pages/homepage.dart';
 import 'pages/appstate.dart';
-import 'pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'pages/calendar.dart';
+import 'pages/homepage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(
     ChangeNotifierProvider(
-    create: (context) => AppState(),
-    child: BaseApp()
+      create: (context) => AppState(),
+      child: const BaseApp(),
     ),
   );
 }
 
 class BaseApp extends StatelessWidget {
+  const BaseApp({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Roweather',
@@ -35,9 +37,12 @@ class BaseApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textTheme: GoogleFonts.urbanistTextTheme(
+          Theme.of(context).textTheme,
+        ),
         useMaterial3: true,
       ),
-      home: BookingPage(),
+      home: MyHomePage(title: 'Roweather'),
     );
   }
 }
