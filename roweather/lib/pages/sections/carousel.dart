@@ -138,7 +138,12 @@ class NextDaysCarousel extends StatefulWidget {
 class _NextDaysCarouselState extends State<NextDaysCarousel> {
   int _selectedIndex = 0;
   int _flagStateIndex = 0;
+  int _weatherStateIndex = 0;
   List<String> carouselDays= ['Today', 'Thu 29th', 'Fri 30th', 'Sat 1st'];
+  List<AssetImage> weatherIcons = [
+    const AssetImage('assets/icons/cloud-bolt-svgrepo-com.svg'),
+    const AssetImage('assets/icons/cloud-showers-svgrepo-com.svg')
+  ];
   List<Icon> flagIcons = [
     const Icon(Icons.flag, color: Colors.green,),
     const Icon(Icons.flag, color: Colors.yellow),
@@ -188,6 +193,10 @@ class _NextDaysCarouselState extends State<NextDaysCarousel> {
               top: 10,
               child: flagIcons[_flagStateIndex]
               ),
+            Positioned(
+              right: 10,
+              bottom: 10,
+              child: ImageIcon(weatherIcons[_weatherStateIndex]))
           ],
         );
         
