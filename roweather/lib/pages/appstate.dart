@@ -1,10 +1,8 @@
 import 'dart:collection';
-import 'dart:html';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:xml/xml.dart';
 import 'dart:convert';
 import '../helper/weather.dart';
 
@@ -52,6 +50,10 @@ class AppState with ChangeNotifier {
   FlagColour flagColour = FlagColour.unknown;
   double? riverLevel;
   final HashMap<DateTime, List<Outing>> outings = HashMap();
+
+  DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
+  var hourly = <HourlyWeather>[];
+  var daily = <DailyWeather>[];
 
   final settings = Settings();
 
