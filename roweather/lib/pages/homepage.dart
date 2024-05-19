@@ -68,12 +68,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   ])),
         ),
         Positioned(
-          top: 300,
+          top: 250,
           left: 0,
           right: 0,
           child: Column(children: <Widget>[
           Container(
-            height: 120,
+            height: 110,
             child: NextDaysCarousel(),
           ),
           Center(child: SelectedDay()),
@@ -103,15 +103,57 @@ River level (Baits Bite): ${appstate.riverLevel}m''',
                       ));
           },
         ),
-        Consumer<AppState>(builder: (context, appstate, child) => Container(
-          padding: const EdgeInsets.only(left: 64.0, top:400.0, right: 32.0),
-          height: 450,
-          child: HourLine(
-            appstate,
-            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature),
-            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+        Container(
+          padding: EdgeInsets.only(top: 560, left: 0),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Container(
+                color: Color.fromARGB(255, 1, 79, 74),
+                padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0),
+                height: 100,
+                child: HourLine(
+                  appstate,
+                  (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature),
+                  (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+                )
+              ))),
+              SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Container(
+                padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0),
+                height: 100,
+                child: HourLine(
+                  appstate,
+                  (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed),
+                  (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+                )
+              ))),
+              SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Container(
+                color: Color.fromARGB(255, 1, 79, 74),
+                padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0),
+                height: 100,
+                child: HourLine(
+                  appstate,
+                  (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover),
+                  (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+                  minY: 0.0,
+                  maxY: 100.0,
+                )
+              ))),
+              SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Container(
+                padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0),
+                height: 100,
+                child: HourLine(
+                  appstate,
+                  (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability),
+                  (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+                  minY: 0.0,
+                  maxY: 100.0,
+                )
+              ))),
+            ]
           )
-        )),
+        ),
+        
+        /*
         Consumer<AppState>(builder: (context, appstate, child) => Container(
           padding: const EdgeInsets.only(left: 64.0, top:475.0, right: 32.0),
           height: 525,
@@ -138,7 +180,7 @@ River level (Baits Bite): ${appstate.riverLevel}m''',
             (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability),
             (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
           )
-        )),
+        )),*/
       ]),
     );
   }
