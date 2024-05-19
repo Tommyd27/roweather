@@ -86,21 +86,36 @@ class _MyHomePageState extends State<MyHomePage> {
             child: IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
-            )),
+            )
+        ),
+
         Consumer<AppState>(
           // Demo of using weather data in the homepage
           builder: (context, appstate, child) {
             return Container(
-                padding: const EdgeInsets.only(left: 64.0, top: 0.0),
+                height: 170,
+                alignment: Alignment.center,
                 child: appstate.flagColour == FlagColour.unknown
+                  ? CircularProgressIndicator()
+                  : Icon(
+                    Icons.flag,
+                    color: appstate.flagColour == FlagColour.green
+                      ? Colors.green
+                      : appstate.flagColour == FlagColour.yellow
+                        ? Colors.yellow
+                        : Colors.red,
+                      size: 90
+                  )
+                /*child: appstate.flagColour == FlagColour.unknown
                     ? CircularProgressIndicator()
                     : Text(
                         '''Flag is currently: ${appstate.flagColour == FlagColour.green ? "Green" : appstate.flagColour == FlagColour.yellow ? "Yellow" : "Red"}
                     
-River level (Baits Bite): ${appstate.riverLevel}m''',
+          River level (Baits Bite): ${appstate.riverLevel}m''',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 30),
-                      ));
+                      )*/
+            );
           },
         ),
 
