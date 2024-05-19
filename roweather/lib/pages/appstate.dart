@@ -81,28 +81,38 @@ class AppState with ChangeNotifier {
   }
 
   Future<void> _fetchDailyWeather() async {
-    var response = await http.post(
-        Uri.parse(
-            "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
-        body: '''{
-	"location": "42.3478, -71.0466",
-    "fields": [
-        "temperature",
-        "windSpeed",
-        "weatherCode",
-        "uvIndex"
-    ],
-    "units": "metric",
-    "timesteps": [
-    "1d"
-    ],
-    "startTime": "now",
-    "endTime": "nowPlus4d"
-}''');
 
-    if (response.statusCode != 200)
-      throw Exception("Failure fetching weather API");
-    var js = jsonDecode(response.body);
+    final exampleResponse = true;
+
+    var body;
+
+    if (exampleResponse) body = '{"data":{"timelines":[{"timestep":"1d","endTime":"2024-05-23T10:00:00Z","startTime":"2024-05-19T10:00:00Z","intervals":[{"startTime":"2024-05-19T10:00:00Z","values":{"temperature":12.13,"uvIndex":2,"weatherCode":1001,"windSpeed":4.81}},{"startTime":"2024-05-20T10:00:00Z","values":{"temperature":15.53,"uvIndex":5,"weatherCode":1001,"windSpeed":3.42}},{"startTime":"2024-05-21T10:00:00Z","values":{"temperature":24.73,"uvIndex":7,"weatherCode":1000,"windSpeed":6.24}},{"startTime":"2024-05-22T10:00:00Z","values":{"temperature":28.24,"uvIndex":7,"weatherCode":1100,"windSpeed":6.55}},{"startTime":"2024-05-23T10:00:00Z","values":{"temperature":20.47,"uvIndex":3,"weatherCode":1001,"windSpeed":5.18}}]}]}}';
+    else {
+      var response = await http.post(
+          Uri.parse(
+              "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
+          body: '''{
+    "location": "42.3478, -71.0466",
+      "fields": [
+          "temperature",
+          "windSpeed",
+          "weatherCode",
+          "uvIndex"
+      ],
+      "units": "metric",
+      "timesteps": [
+      "1d"
+      ],
+      "startTime": "now",
+      "endTime": "nowPlus4d"
+  }''');
+
+      if (response.statusCode != 200)
+        throw Exception("Failure fetching weather API");
+      body = response.body;
+    }
+    
+    var js = jsonDecode(body);
     daily =
         js['data']['timelines'][0]['intervals'].map<DailyWeather>((datapoint) {
       var values = datapoint['values'];
