@@ -354,6 +354,7 @@ class _NextDaysCarouselState extends State<NextDaysCarousel> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
+                height: 110,
                 decoration: BoxDecoration(
                   //color: (selectedIndex == index) ? Color(0xff85B09A) : Color(0xff003330),
                   color: const Color(0xff85B09A).withOpacity(0.30),
