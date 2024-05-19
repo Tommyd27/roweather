@@ -392,9 +392,13 @@ DateTime? selectedCalendarDate;
                   child: GestureDetector(
                   onTap: () {
                     if (selectedCalendarDate == null) {
-                      _textPrompt = 'Please select a date';
+                      setState(() {
+                        _textPrompt = 'Please select a date';
+                      });
                     } else if (_endHour <= _startHour || (_endHour == _startHour && _endMin <= _startMin)) {
-                      _textPrompt = 'Outing cannot end before it starts';
+                      setState(() {
+                        _textPrompt = 'Outing cannot end before it starts';
+                      });
                     } else {
                       DateTime key = DateTime(
                         selectedCalendarDate!.year,
@@ -409,7 +413,9 @@ DateTime? selectedCalendarDate;
                       if (Provider.of<AppState>(context, listen: false).addOuting(key, start, end)){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Roweather')));
                       } else {
-                        _textPrompt = 'Outing seems to clash with another';
+                        setState(() {
+                          _textPrompt = 'Outing seems to clash with another';
+                        });
                       }
                     }
                   
