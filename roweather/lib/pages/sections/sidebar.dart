@@ -8,6 +8,7 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Color(0xFF4e7c65),
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
@@ -37,7 +38,7 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyHomePage(title: 'aaa')),
+                MaterialPageRoute(builder: (context) => MyHomePage(title: 'Roweather')),
               );
             },
           ),
