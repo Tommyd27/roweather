@@ -84,7 +84,7 @@ class _NextDaysCarouselState extends State<NextDaysCarousel> {
   }
 } */
 
-
+/*
 import 'package:flutter/material.dart';
 
 class NextDaysCarousel extends StatefulWidget {
@@ -122,4 +122,53 @@ class _NextDaysCarouselState extends State<NextDaysCarousel> {
       } ,
     );
   }
+} */
+
+import 'package:flutter/material.dart';
+
+class NextDaysCarousel extends StatefulWidget {
+  const NextDaysCarousel({super.key});
+
+  @override
+  State<NextDaysCarousel> createState() => _NextDaysCarouselState();
 }
+
+class _NextDaysCarouselState extends State<NextDaysCarousel> {
+  int selectedIndex = 0;
+  List<String> carouselDays= ['Today', 'Thu 29th', 'Fri 30th', 'Sat 1st'];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemExtent: 150.0,
+      padding: const EdgeInsets.all(8),
+      scrollDirection: Axis.horizontal,
+      itemCount: carouselDays.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: (selectedIndex == index) ? Color(0xff85B09A) : Color(0xff003330),
+              borderRadius: BorderRadius.all(Radius.circular(7)),
+            ),
+            child: ListTile(
+              title: Text(
+                carouselDays[index],
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+                ),
+              onTap: (){
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+            ),
+          ),
+        );
+      } ,
+    );
+  }
+} 

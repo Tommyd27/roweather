@@ -154,11 +154,14 @@ class AppState with ChangeNotifier {
       hourly = js['data']['timelines'][0]['intervals']
           .map<HourlyWeather>((datapoint) => HourlyWeather(
               DateTime.parse(datapoint['startTime']),
-              datapoint['values']['temperature'],
-              datapoint['values']['windSpeed'],
+              datapoint['values']['temperature'].toDouble(),
+              datapoint['values']['windSpeed'].toDouble(),
               datapoint['values']['cloudCover'].toDouble(),
               datapoint['values']['precipitationProbability'].toDouble()))
           .toList();
+
+
+
   }
 
   Future<void> _fetchData() async {
