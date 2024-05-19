@@ -32,6 +32,17 @@ class DailyWeather {
       this.day, this.weather, this.temperature, this.windSpeed, this.uvIndex);
 }
 
+class Settings {
+  String timeZone = 'BST';
+  bool notifyFlagColour = false;
+  bool notifyWeatherEvents = false;
+  bool notifyWeatherChange = false;
+  String language = 'English';
+  String unitSpeed = 'KM/H';
+  String unitTemperature = 'Celsius';
+  String unitHeight = 'Meters';
+}
+
 class AppState with ChangeNotifier {
   int? temperature;
   FlagColour flagColour = FlagColour.unknown;
@@ -46,6 +57,8 @@ class AppState with ChangeNotifier {
   DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
   var hourly = <HourlyWeather>[];
   var daily = <DailyWeather>[];
+
+  final settings = Settings();
 
   AppState() {
     _fetchData();

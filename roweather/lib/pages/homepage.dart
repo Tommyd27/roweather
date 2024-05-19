@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
 
-        
+
         // -- background image and gradient --
         Container(
           width: double.infinity,
@@ -105,36 +105,7 @@ River level (Baits Bite): ${appstate.riverLevel}m''',
         ),
 
         HourlyBox(),
-        
-        
-        /*
-        Consumer<AppState>(builder: (context, appstate, child) => Container(
-          padding: const EdgeInsets.only(left: 64.0, top:475.0, right: 32.0),
-          height: 525,
-          child: HourLine(
-            appstate,
-            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed),
-            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-          )
-        )),
-        Consumer<AppState>(builder: (context, appstate, child) => Container(
-          padding: const EdgeInsets.only(left: 64.0, top:550.0, right: 32.0),
-          height: 600,
-          child: HourLine(
-            appstate,
-            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover),
-            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-          )
-        )),
-        Consumer<AppState>(builder: (context, appstate, child) => Container(
-          padding: const EdgeInsets.only(left: 64.0, top:550.0, right: 32.0),
-          height: 600,
-          child: HourLine(
-            appstate,
-            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability),
-            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-          )
-        )),*/
+      
       ]),
     );
   }
