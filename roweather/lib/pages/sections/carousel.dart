@@ -124,6 +124,80 @@ class _NextDaysCarouselState extends State<NextDaysCarousel> {
   }
 } */
 
+
+import 'package:demo/pages/sections/flag.dart';
+import 'package:flutter/material.dart';
+
+class NextDaysCarousel extends StatefulWidget {
+  const NextDaysCarousel({super.key});
+
+  @override
+  State<NextDaysCarousel> createState() => _NextDaysCarouselState();
+}
+
+class _NextDaysCarouselState extends State<NextDaysCarousel> {
+  int _selectedIndex = 0;
+  int _flagStateIndex = 0;
+  List<String> carouselDays= ['Today', 'Thu 29th', 'Fri 30th', 'Sat 1st'];
+  List<Icon> flagIcons = [
+    const Icon(Icons.flag, color: Colors.green,),
+    const Icon(Icons.flag, color: Colors.yellow),
+    const Icon(Icons.flag, color: Colors.red,) ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemExtent: 150.0,
+      padding: const EdgeInsets.all(8),
+      scrollDirection: Axis.horizontal,
+      itemCount: carouselDays.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  //color: (selectedIndex == index) ? Color(0xff85B09A) : Color(0xff003330),
+                  color: const Color(0xff85B09A).withOpacity(0.30),
+                  borderRadius: const BorderRadius.all(Radius.circular(7)),
+                  gradient: (_selectedIndex == index) ? RadialGradient(
+                    colors: [const Color(0xff85B09A), Colors.grey.shade900],
+                    center: Alignment.center,
+                    radius: 0.99,
+                    ) : null,
+                  ),
+                child: ListTile(
+                  title: Text(
+                    carouselDays[index],
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                    ),
+                  onTap: (){
+                    setState(() {
+                      _selectedIndex = index;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            Positioned(
+              right: 10,
+              top: 10,
+              child: flagIcons[_flagStateIndex]
+              ),
+          ],
+        );
+        
+      } ,
+    );
+  }
+} 
+
+
+/*
 import 'package:flutter/material.dart';
 
 class NextDaysCarousel extends StatefulWidget {
@@ -147,11 +221,10 @@ class _NextDaysCarouselState extends State<NextDaysCarousel> {
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: (selectedIndex == index) ? Color(0xff85B09A) : Color(0xff003330),
-              borderRadius: BorderRadius.all(Radius.circular(7)),
-            ),
+          child: Material(
+            elevation: (selectedIndex == index) ? 0 : 50,
+            color: (selectedIndex == index) ? Color(0xff003330).withOpacity(0.2) : Color(0xff85B09A).withOpacity(0.4),
+            borderRadius: const BorderRadius.all(Radius.circular(7)),
             child: ListTile(
               title: Text(
                 carouselDays[index],
@@ -172,3 +245,5 @@ class _NextDaysCarouselState extends State<NextDaysCarousel> {
     );
   }
 } 
+
+*/
