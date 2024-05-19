@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:html';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class AppState with ChangeNotifier {
   int? temperature;
   FlagColour flagColour = FlagColour.unknown;
   double? riverLevel;
-  final outings = <Outing>[];
+  final HashMap<DateTime, List<Outing>> outings = HashMap();
 
   AppState() {
     _fetchData();
