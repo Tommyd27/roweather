@@ -50,7 +50,7 @@ class SelectedDay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppState>(builder: (context, appstate, child) {
       return Container(
-        margin: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(8),
         child: Column(children: [
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

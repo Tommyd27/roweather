@@ -67,7 +67,7 @@ class HourlyBox extends Container {
             child: HourLine(
               appstate,
               (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover),
-              (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+              (spot) => LineTooltipItem("${spot.y.round().toString()}%", TextStyle(color: Colors.white, fontSize: 20)),
               minY: 0.0,
               maxY: 100.0,
             )
@@ -85,7 +85,7 @@ class HourlyBox extends Container {
             child: HourLine(
               appstate,
               (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability),
-              (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+              (spot) => LineTooltipItem("${spot.y.round().toString()}%", TextStyle(color: Colors.white, fontSize: 20)),
               minY: 0.0,
               maxY: 100.0,
             )
