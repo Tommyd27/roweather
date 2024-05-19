@@ -319,6 +319,10 @@ class _NextDaysCarouselState extends State<NextDaysCarousel> {
 
 import 'package:demo/pages/sections/flag.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../appstate.dart';
+import 'package:intl/intl.dart';
+import '../../helper/weather.dart';
 
 class NextDaysCarousel extends StatefulWidget {
   const NextDaysCarousel({super.key});
@@ -327,74 +331,95 @@ class NextDaysCarousel extends StatefulWidget {
   State<NextDaysCarousel> createState() => _NextDaysCarouselState();
 }
 
-class _NextDaysCarouselState extends State<NextDaysCarousel> {
-  int _selectedIndex = 0;
-  int _flagStateIndex = 0;
-  int _weatherStateIndex = 0;
-  List<String> carouselDays= ['Today', 'Thu 29th', 'Fri 30th', 'Sat 1st'];
-  List<Icon> weatherIcons = [
+class CarouselElement extends StatelessWidget {
+  final int index;
+  final AppState appstate;
+
+  final List<Icon> weatherIcons = [
     const Icon(Icons.sunny, color: Colors.amber),
     Icon(Icons.cloud, color: Colors.grey[400]),
   ];
-  List<Icon> flagIcons = [
-    const Icon(Icons.flag, color: Colors.green,),
-    const Icon(Icons.flag, color: Colors.yellow),
-    const Icon(Icons.flag, color: Colors.red,) ];
+  static const Map<FlagColour, Icon> flagIcons = {
+    FlagColour.green: Icon(Icons.flag, color: Colors.green,),
+    FlagColour.yellow: Icon(Icons.flag, color: Colors.yellow),
+    FlagColour.red: Icon(Icons.flag, color: Colors.red), 
+    FlagColour.unknown: Icon(Icons.flag, color: Colors.red), // TODO maybe change
+  };
+
+  static const Map<Weather, String> weatherToImage = {
+    Weather.sunny: "sunny",
+    Weather.partialCloudy: "partialCloudy",
+    Weather.fullCloudy: "fullCloudy",
+    Weather.rainy: "rainy",
+  };
+
+  CarouselElement(
+    this.index, 
+    this.appstate,
+    { super.key }
+  );
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemExtent: 150.0,
-      padding: const EdgeInsets.all(8),
-      scrollDirection: Axis.horizontal,
-      itemCount: carouselDays.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 110,
-                decoration: BoxDecoration(
-                  //color: (selectedIndex == index) ? Color(0xff85B09A) : Color(0xff003330),
-                  color: const Color(0xff85B09A).withOpacity(0.30),
-                  borderRadius: const BorderRadius.all(Radius.circular(7)),
-                  gradient: (_selectedIndex == index) ? RadialGradient(
-                    colors: [const Color(0xff85B09A), Colors.grey.shade900],
-                    center: Alignment.center,
-                    radius: 0.99,
-                    ) : null,
-                  ),
-                child: ListTile(
-                  title: Text(
-                    carouselDays[index],
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                    ),
-                  onTap: (){
-                    setState(() {
-                      _selectedIndex = index;
-                      });
-                    },
-                  ),
+  Widget build(BuildContext context) => 
+    Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 110,
+            decoration: BoxDecoration(
+              //color: (selectedIndex == index) ? Color(0xff85B09A) : Color(0xff003330),
+              color: const Color(0xff85B09A).withOpacity(0.30),
+              borderRadius: const BorderRadius.all(Radius.circular(7)),
+              gradient: (appstate.daySelectedIndex == index) ? RadialGradient(
+                colors: [const Color(0xff85B09A), Colors.grey.shade900],
+                center: Alignment.center,
+                radius: 0.99,
+                ) : null,
+              ),
+            child: ListTile(
+              title: Text(
+                DateFormat("E d").format(appstate.daily[index].day),
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
                 ),
+              onTap: () {
+                appstate.selectDay(index);
+              }
               ),
-            Positioned(
-              right: 10,
-              top: 10,
-              child: flagIcons[_flagStateIndex]
-              ),
-            Positioned(
-              right: 10,
-              bottom: 10,
-              child: weatherIcons[_weatherStateIndex])
-          ],
-        );
-        
-      } ,
+            ),
+          ),
+        Positioned(
+          right: 10,
+          top: 10,
+          child: flagIcons[appstate.flagColour]! // TODO: Change to flag colour prediction
+        ),
+        Positioned(
+          right: -5,
+          bottom: -5,
+          child: Image(
+            image: AssetImage('assets/icons/${weatherToImage[appstate.daily[index].weather]}.png'), 
+            width: 70
+          ))
+      ],
     );
-  }
+}
+
+class _NextDaysCarouselState extends State<NextDaysCarousel> {
+  @override
+  Widget build(BuildContext context) => 
+    Consumer<AppState>(builder: (context, appstate, child) =>
+      ListView.builder(
+        itemExtent: 150.0,
+        padding: const EdgeInsets.all(8),
+        scrollDirection: Axis.horizontal,
+        itemCount: appstate.daily.length,
+        itemBuilder: (BuildContext context, int index) => 
+          CarouselElement(index, appstate),
+      )
+    );
+
 } 
 

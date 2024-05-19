@@ -47,30 +47,29 @@ class SelectedDay extends StatelessWidget {
   var formatter = NumberFormat("#0.0");
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<AppState>(builder: (context, appstate, child) {
+  Widget build(BuildContext context) => 
+    Consumer<AppState>(builder: (context, appstate, child) {
+      DailyWeather? info = appstate.daily[appstate.daySelectedIndex];
       return Container(
         margin: const EdgeInsets.all(8),
         child: Column(children: [
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                TextComponent("19°"),
-                TextComponent("8.2", sideUpText: "KM/H", sideDownText: "Wind"),
-                TextComponent("2.3", sideUpText: "KM/H", sideDownText: "Water"),
+                TextComponent('${NumberFormat("#0").format(info?.temperature ?? 19)}°'),
+                TextComponent(formatter.format(info?.windSpeed ?? 8.2), sideUpText: "KM/H", sideDownText: "Wind"),
+                TextComponent("2.3", sideUpText: "KM/H", sideDownText: "Water"), // TODO
               ]),
           Container(
             margin: const EdgeInsets.only(top: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                TextComponent("7.7", sideUpText: "UV"),
-                TextComponent(formatter.format(appstate.riverLevel ?? 0), sideUpText: "M", sideDownText: "River Level")
+                TextComponent(info.uvIndex.toString(), sideUpText: "UV"),
+                TextComponent(formatter.format(appstate.riverLevel ?? 0), sideUpText: "M", sideDownText: "River Level") // TODO
               ])
             )
           
         ]));
-    }); 
-    
-  }
+  }); 
 }

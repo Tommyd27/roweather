@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'sections/sidebar.dart';
-import 'sections/nextfewdays.dart';
 import 'sections/selectedDay.dart';
 import 'sections/carousel.dart';
 import 'sections/hourline.dart';
@@ -76,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 110,
             child: NextDaysCarousel(),
           ),
-          Center(child: SelectedDay()),
+          SelectedDay(),
         ])),
         
         

@@ -54,6 +54,7 @@ class AppState with ChangeNotifier {
   DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
   var hourly = <HourlyWeather>[];
   var daily = <DailyWeather>[];
+  int daySelectedIndex = 0;
 
   final settings = Settings();
 
@@ -208,7 +209,6 @@ class AppState with ChangeNotifier {
     Outing newO = Outing(start: start, end: end);
     if (outings[key] == null) {
       outings.addAll({key: [newO]});
-      return true;
     } else {
       for (Outing outing in outings[key]!){
         if (isAfter(start, outing.start) && isAfter(outing.start, end) || isAfter(start, outing.end) && isAfter(outing.end, end)) {
@@ -216,8 +216,9 @@ class AppState with ChangeNotifier {
         }
       }
       outings[key]!.add(newO);
-      return true;
     }
+    notifyListeners();
+    return true;
   }
   bool isAfter(TimeOfDay t1, TimeOfDay t2) {
     if (t2.hour > t1.hour) {
@@ -232,6 +233,11 @@ class AppState with ChangeNotifier {
 
   void deleteOutings() {
     outings.clear();
+    notifyListeners();
+  }
+
+  void selectDay(int index) {
+    daySelectedIndex = index;
     notifyListeners();
   }
 }
