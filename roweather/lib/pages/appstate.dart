@@ -1,10 +1,8 @@
 import 'dart:collection';
-import 'dart:html';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:xml/xml.dart';
 import 'dart:convert';
 import '../helper/weather.dart';
 
@@ -36,11 +34,28 @@ class DailyWeather {
       this.day, this.weather, this.temperature, this.windSpeed, this.uvIndex);
 }
 
+class Settings {
+  String timeZone = 'BST';
+  bool notifyFlagColour = false;
+  bool notifyWeatherEvents = false;
+  bool notifyWeatherChange = false;
+  String language = 'English';
+  String unitSpeed = 'KM/H';
+  String unitTemperature = 'Celsius';
+  String unitHeight = 'Meters';
+}
+
 class AppState with ChangeNotifier {
   int? temperature;
   FlagColour flagColour = FlagColour.unknown;
   double? riverLevel;
   final HashMap<DateTime, List<Outing>> outings = HashMap();
+
+  DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
+  var hourly = <HourlyWeather>[];
+  var daily = <DailyWeather>[];
+
+  final settings = Settings();
 
   AppState() {
     _fetchData();
@@ -128,7 +143,7 @@ class AppState with ChangeNotifier {
           Uri.parse(
               "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
           body: '''{
-              "location": "42.3478, -71.0466",
+              "location": "52.1951, 0.1313",
               "fields": [
                 "temperature",
                 "windSpeed",
