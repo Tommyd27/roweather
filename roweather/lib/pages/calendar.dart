@@ -426,17 +426,18 @@ DateTime? selectedCalendarDate;
                 ),
               ),
               Container(
+                height: 100,
                 child: Text(
                   _textPrompt,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 16,
                   )
 
                 ),
               ),
                     const Card(
-                      margin: EdgeInsets.all(15.0),
+                      margin: EdgeInsets.all(8.0),
                       elevation: 5.0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
