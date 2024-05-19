@@ -7,6 +7,7 @@ import 'sections/hourline.dart';
 import 'package:provider/provider.dart';
 import 'appstate.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'sections/hourlybox.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -31,16 +32,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       key: scaffoldKey,
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
+
+
+        // -- background image and gradient --
         Container(
           width: double.infinity,
           decoration: const BoxDecoration(
@@ -67,6 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.6,
                   ])),
         ),
+
+
         Positioned(
           top: 250,
           left: 0,
@@ -103,84 +103,9 @@ River level (Baits Bite): ${appstate.riverLevel}m''',
                       ));
           },
         ),
-        Container(
-          padding: EdgeInsets.only(top: 560, left: 0),
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Container(
-                color: Color.fromARGB(255, 1, 79, 74),
-                padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0),
-                height: 100,
-                child: HourLine(
-                  appstate,
-                  (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature),
-                  (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-                )
-              ))),
-              SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Container(
-                padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0),
-                height: 100,
-                child: HourLine(
-                  appstate,
-                  (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed),
-                  (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-                )
-              ))),
-              SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Container(
-                color: Color.fromARGB(255, 1, 79, 74),
-                padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0),
-                height: 100,
-                child: HourLine(
-                  appstate,
-                  (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover),
-                  (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-                  minY: 0.0,
-                  maxY: 100.0,
-                )
-              ))),
-              SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Container(
-                padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0),
-                height: 100,
-                child: HourLine(
-                  appstate,
-                  (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability),
-                  (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-                  minY: 0.0,
-                  maxY: 100.0,
-                )
-              ))),
-            ]
-          )
-        ),
-        
-        /*
-        Consumer<AppState>(builder: (context, appstate, child) => Container(
-          padding: const EdgeInsets.only(left: 64.0, top:475.0, right: 32.0),
-          height: 525,
-          child: HourLine(
-            appstate,
-            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed),
-            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-          )
-        )),
-        Consumer<AppState>(builder: (context, appstate, child) => Container(
-          padding: const EdgeInsets.only(left: 64.0, top:550.0, right: 32.0),
-          height: 600,
-          child: HourLine(
-            appstate,
-            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover),
-            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-          )
-        )),
-        Consumer<AppState>(builder: (context, appstate, child) => Container(
-          padding: const EdgeInsets.only(left: 64.0, top:550.0, right: 32.0),
-          height: 600,
-          child: HourLine(
-            appstate,
-            (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability),
-            (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
-          )
-        )),*/
+
+        HourlyBox(),
+      
       ]),
     );
   }
