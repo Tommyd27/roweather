@@ -425,6 +425,16 @@ DateTime? selectedCalendarDate;
                   ),
                 ),
               ),
+                    const Card(
+                      margin: EdgeInsets.all(8.0),
+                      elevation: 5.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        side: BorderSide(color: Color(0xff85B09A), width: 2.0)
+                      )
+                    ),
               Container(
                 height: 100,
                 child: Text(
@@ -432,7 +442,8 @@ DateTime? selectedCalendarDate;
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
-                  )
+                  ),
+                  
 
                 ),
               ),
