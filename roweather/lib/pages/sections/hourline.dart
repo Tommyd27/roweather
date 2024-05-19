@@ -6,9 +6,9 @@ import 'package:fl_chart/fl_chart.dart';
 class HourLine extends LineChart {
 
   
-  HourLine(appstate, dataF, tooltipF, {minY, maxY}) : 
+  HourLine(appstate, dataF, tooltipF, {minY, maxY, showLine=true}) : 
     super(() { 
-      final lbd = LineChartBarData(spots: appstate.hourly.map<FlSpot>(dataF).toList());
+      final lbd = LineChartBarData(spots: appstate.hourly.map<FlSpot>(dataF).toList(), show: showLine);
       return LineChartData(
         minY: minY,
         maxY: maxY,

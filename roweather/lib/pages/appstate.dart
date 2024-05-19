@@ -133,7 +133,7 @@ class AppState with ChangeNotifier {
           Uri.parse(
               "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
           body: '''{
-              "location": "42.3478, -71.0466",
+              "location": "52.1951, 0.1313",
               "fields": [
                 "temperature",
                 "windSpeed",
