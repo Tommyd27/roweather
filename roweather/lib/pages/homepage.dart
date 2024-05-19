@@ -67,13 +67,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.6,
                   ])),
         ),
-        Column(children: <Widget>[
-          Center(
-            //child: NextFewDays(),
-            child: Carousel()
+        Positioned(
+          top: 300,
+          left: 0,
+          right: 0,
+          child: Column(children: <Widget>[
+          Container(
+            height: 120,
+            child: NextDaysCarousel(),
           ),
           Center(child: SelectedDay()),
-        ]),
+        ])),
+        
+        
         Positioned(
             left: 10,
             top: 20,

@@ -1,24 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../appstate.dart';
+import 'package:intl/intl.dart';
 
 class TextComponent extends StatelessWidget {
   final String mainText;
+  final String? sideUpText;
+  final String? sideDownText;
 
-  const TextComponent(this.mainText, { super.key });
+  const TextComponent(this.mainText,
+      {this.sideUpText, this.sideDownText, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Text(mainText, 
-      style: GoogleFonts.urbanist(fontSize: 48)
-    );
+    return Row(
+        children: [
+          Text(
+            mainText,
+            style: GoogleFonts.urbanist(
+                textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 48,
+                    fontWeight: FontWeight.w700)),
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 5),
+            child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            Text(sideUpText ?? "",
+                style: const TextStyle(color: Colors.white, fontSize: 18)),
+            Text(sideDownText ?? "",
+                style: const TextStyle(color: Colors.white, fontSize: 18)),
+          ])
+          )
+          
+        ],
+      );
   }
 }
 
-class SelectedDay extends StatelessWidget{
-  SelectedDay({ super.key });
+class SelectedDay extends StatelessWidget {
+  SelectedDay({super.key});
+
+  var formatter = NumberFormat("#0.0");
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: <Widget>[TextComponent("19"), TextComponent("8.2 KM/H"), TextComponent("2.3")]);
+    return Consumer<AppState>(builder: (context, appstate, child) {
+      return Container(
+        margin: const EdgeInsets.all(20),
+        child: Column(children: [
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                TextComponent("19°"),
+                TextComponent("8.2", sideUpText: "KM/H", sideDownText: "Wind"),
+                TextComponent("2.3", sideUpText: "KM/H", sideDownText: "Water"),
+              ]),
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                TextComponent("7.7", sideUpText: "UV"),
+                TextComponent(formatter.format(appstate.riverLevel ?? 0), sideUpText: "M", sideDownText: "River Level")
+              ])
+            )
+          
+        ]));
+    }); 
+    
   }
 }
