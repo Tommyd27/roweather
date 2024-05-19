@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:demo/pages/appstate.dart';
+import 'package:demo/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -405,11 +406,11 @@ DateTime? selectedCalendarDate;
                       TimeOfDay end = TimeOfDay(
                         hour: _endHour,
                         minute: _endMin);
-                      if (Provider.of<AppState>(context).addOuting(key, start, end)){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => BookingPage()));
+                      if (Provider.of<AppState>(context, listen: false).addOuting(key, start, end)){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Roweather')));
                       } else {
                         _textPrompt = 'Outing seems to clash with another';
-                      }     
+                      }
                     }
                   
                    },
@@ -424,18 +425,30 @@ DateTime? selectedCalendarDate;
                   ),
                 ),
               ),
+                    const Card(
+                      margin: EdgeInsets.all(8.0),
+                      elevation: 5.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        side: BorderSide(color: Color(0xff85B09A), width: 2.0)
+                      )
+                    ),
               Container(
+                height: 100,
                 child: Text(
                   _textPrompt,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
-                  )
+                    fontSize: 16,
+                  ),
+                  
 
                 ),
               ),
                     const Card(
-                      margin: EdgeInsets.all(15.0),
+                      margin: EdgeInsets.all(8.0),
                       elevation: 5.0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
