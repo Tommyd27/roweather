@@ -57,6 +57,8 @@ class AppState with ChangeNotifier {
 
   final settings = Settings();
 
+  final exampleResponse = true;
+
   AppState() {
     _fetchData();
   }
@@ -81,8 +83,6 @@ class AppState with ChangeNotifier {
   }
 
   Future<void> _fetchDailyWeather() async {
-
-    final exampleResponse = true;
 
     var body;
 
@@ -149,39 +149,44 @@ class AppState with ChangeNotifier {
   }
 
   Future<void> _fetchHourlyWeather() async {
-    var response = await http.post(
-          Uri.parse(
-              "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
-          body: '''{
-              "location": "52.1951, 0.1313",
-              "fields": [
-                "temperature",
-                "windSpeed",
-                "cloudCover",
-                "precipitationProbability"
-              ],
-              "units": "metric",
-              "timesteps": [
-                "1h"
-              ],
-              "startTime": "now",
-              "endTime": "nowPlus6h"
-            }''');
 
-      if (response.statusCode != 200)
-        throw Exception("Failure fetching weather API");
-      var js = jsonDecode(response.body);
-      hourly = js['data']['timelines'][0]['intervals']
-          .map<HourlyWeather>((datapoint) => HourlyWeather(
-              DateTime.parse(datapoint['startTime']),
-              datapoint['values']['temperature'].toDouble(),
-              datapoint['values']['windSpeed'].toDouble(),
-              datapoint['values']['cloudCover'].toDouble(),
-              datapoint['values']['precipitationProbability'].toDouble()))
-          .toList();
+    var body;
 
+    if (exampleResponse) body = '{"data":{"timelines":[{"timestep":"1h","endTime":"2024-05-19T20:00:00Z","startTime":"2024-05-19T14:00:00Z","intervals":[{"startTime":"2024-05-19T14:00:00Z","values":{"cloudCover":22,"precipitationProbability":0,"temperature":19.81,"windSpeed":4.81}},{"startTime":"2024-05-19T15:00:00Z","values":{"cloudCover":0.78,"precipitationProbability":0,"temperature":19.35,"windSpeed":5.34}},{"startTime":"2024-05-19T16:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":18.84,"windSpeed":5.23}},{"startTime":"2024-05-19T17:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":17.81,"windSpeed":5.03}},{"startTime":"2024-05-19T18:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":16.38,"windSpeed":4.8}},{"startTime":"2024-05-19T19:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":14.76,"windSpeed":4.01}},{"startTime":"2024-05-19T20:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":12.75,"windSpeed":3.69}}]}]}}';
+    else {
+      var response = await http.post(
+            Uri.parse(
+                "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
+            body: '''{
+                "location": "52.1951, 0.1313",
+                "fields": [
+                  "temperature",
+                  "windSpeed",
+                  "cloudCover",
+                  "precipitationProbability"
+                ],
+                "units": "metric",
+                "timesteps": [
+                  "1h"
+                ],
+                "startTime": "now",
+                "endTime": "nowPlus6h"
+              }''');
 
+        if (response.statusCode != 200)
+          throw Exception("Failure fetching weather API");
+        body = response.body;
+    }
 
+    var js = jsonDecode(body);
+    hourly = js['data']['timelines'][0]['intervals']
+        .map<HourlyWeather>((datapoint) => HourlyWeather(
+            DateTime.parse(datapoint['startTime']),
+            datapoint['values']['temperature'].toDouble(),
+            datapoint['values']['windSpeed'].toDouble(),
+            datapoint['values']['cloudCover'].toDouble(),
+            datapoint['values']['precipitationProbability'].toDouble()))
+        .toList();
   }
 
   Future<void> _fetchData() async {
