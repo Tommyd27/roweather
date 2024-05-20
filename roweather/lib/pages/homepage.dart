@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
             right: 0,
             child: Column(children: <Widget>[
               Container(
-                height: 110,
+                height: 100,
                 child: NextDaysCarousel(),
               ),
               SelectedDay(),
@@ -86,32 +86,39 @@ class _MyHomePageState extends State<MyHomePage> {
           // Demo of using weather data in the homepage
           builder: (context, appstate, child) {
             return Container(
-                height: 170,
+                height: 150,
+                padding: EdgeInsets.all(20),
                 alignment: Alignment.center,
                 child: appstate.flagColour == FlagColour.unknown
                     ? CircularProgressIndicator()
-                    : Icon(Icons.flag,
+                    : Column(children: 
+                        [Text("Today's CBCUC flag rating:",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          )), Icon(Icons.flag,
                         color: appstate.flagColour == FlagColour.green
                             ? Colors.green
                             : appstate.flagColour == FlagColour.yellow
                                 ? Colors.yellow
                                 : Colors.red,
-                        size: 90));
+                        size: 90),
+                        ]));
           },
         ),
         Positioned(
             top: 60,
             left: 100,
             child: Text(
-              "Sunrise",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              "Today's Sunrise Time:",
+              style: TextStyle(fontSize: 16, color: Colors.white),
             )),
         Positioned(
             top: 60,
             right: 100,
             child: Text(
-              "Sunset",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              "Today's Sunset Time:",
+              style: TextStyle(fontSize: 16, color: Colors.white),
             )),
 
         Positioned(

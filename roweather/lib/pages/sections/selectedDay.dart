@@ -67,6 +67,13 @@ class SelectedDay extends StatelessWidget {
         return Container(
             margin: const EdgeInsets.all(8),
             child: Column(children: [
+              Text("Selected day statistics:",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
+              Card(margin: EdgeInsets.only(top: 5),),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -78,7 +85,6 @@ class SelectedDay extends StatelessWidget {
                         sideUpText: speedUnits, sideDownText: "Water"), // TODO
                   ]),
               Container(
-                  margin: const EdgeInsets.only(top: 5),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
