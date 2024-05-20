@@ -21,14 +21,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  bool flagColourIsChecked = false;
-  bool weatherEventsIsChecked = false;
-  bool weatherChangeIsChecked = false;
-  String languageDropdownValue = 'English';
-  String timeZoneDropdownValue = 'BST';
-  String speedDropDownValue = 'KM/H';
-  String temperateDropDownValue = 'Celsius';
-  String heightDropDownValue = 'Meters';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: const Icon(Icons.menu, color: Colors.white),
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
             )),
+        Consumer<AppState>(builder: (context, appstate, child) => 
         Padding(
             padding: const EdgeInsets.only(top: 50),
             child: Column(
@@ -68,33 +61,30 @@ class _SettingsPageState extends State<SettingsPage> {
                 CheckboxListTile(
                   title: const Text("Flag Colour Changes",
                       style: TextStyle(fontSize: 18, color: Colors.white)),
-                  value: flagColourIsChecked,
+                  value: appstate.settings.notifyFlagColour,
                   onChanged: (bool? value) {
-                    setState(() {
-                      flagColourIsChecked = value!;
-                    });
+                    appstate.settings.notifyFlagColour = value!;
+                    appstate.notifyListeners();
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
                 CheckboxListTile(
                   title: const Text("Severe Weather Events",
                       style: TextStyle(fontSize: 18, color: Colors.white)),
-                  value: weatherEventsIsChecked,
+                  value: appstate.settings.notifyWeatherEvents,
                   onChanged: (bool? value) {
-                    setState(() {
-                      weatherEventsIsChecked = value!;
-                    });
+                    appstate.settings.notifyWeatherEvents = value!;
+                    appstate.notifyListeners();
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
                 CheckboxListTile(
                   title: const Text("Change in Weather during Planned Outing",
                       style: TextStyle(fontSize: 18, color: Colors.white)),
-                  value: weatherChangeIsChecked,
+                  value: appstate.settings.notifyWeatherChange,
                   onChanged: (bool? value) {
-                    setState(() {
-                      weatherChangeIsChecked = value!;
-                    });
+                    appstate.settings.notifyWeatherChange = value!;
+                    appstate.notifyListeners();
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
@@ -127,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                     style: const TextStyle(color: Colors.white),
                                     dropdownColor: const Color(0xFF85B09A),
-                                    value: languageDropdownValue,
+                                    value: appstate.settings.language,
                                     icon: const Icon(Icons.arrow_downward),
                                     iconSize: 24,
                                     padding: const EdgeInsets.symmetric(
@@ -135,9 +125,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     elevation: 16,
                                     alignment: Alignment.center,
                                     onChanged: (String? newValue) {
-                                      setState(() {
-                                        languageDropdownValue = newValue!;
-                                      });
+                                      appstate.settings.language = newValue!;
                                     },
                                     items: <String>[
                                       'English',
@@ -163,7 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   ),
                                   style: const TextStyle(color: Colors.white),
                                   dropdownColor: const Color(0xFF85B09A),
-                                  value: timeZoneDropdownValue,
+                                  value: appstate.settings.timeZone,
                                   icon: const Icon(Icons.arrow_downward),
                                   iconSize: 24,
                                   padding: const EdgeInsets.symmetric(
@@ -171,9 +159,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   elevation: 16,
                                   alignment: Alignment.center,
                                   onChanged: (String? newValue) {
-                                    setState(() {
-                                      timeZoneDropdownValue = newValue!;
-                                    });
+                                    appstate.settings.timeZone = newValue!;
                                   },
                                   items: <String>['BST', 'UTC', 'GMT']
                                       .map<DropdownMenuItem<String>>(
@@ -208,7 +194,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                     style: const TextStyle(color: Colors.white),
                                     dropdownColor: const Color(0xFF85B09A),
-                                    value: speedDropDownValue,
+                                    value: appstate.settings.unitSpeed,
                                     icon: const Icon(Icons.arrow_downward),
                                     iconSize: 24,
                                     padding: const EdgeInsets.symmetric(
@@ -216,9 +202,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     elevation: 16,
                                     alignment: Alignment.center,
                                     onChanged: (String? newValue) {
-                                      setState(() {
-                                        speedDropDownValue = newValue!;
-                                      });
+                                      appstate.settings.unitSpeed = newValue!;
                                     },
                                     items: <String>['KM/H', 'MPH']
                                         .map<DropdownMenuItem<String>>(
@@ -241,7 +225,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                     style: const TextStyle(color: Colors.white),
                                     dropdownColor: const Color(0xFF85B09A),
-                                    value: temperateDropDownValue,
+                                    value: appstate.settings.unitTemperature,
                                     icon: const Icon(Icons.arrow_downward),
                                     iconSize: 24,
                                     padding: const EdgeInsets.symmetric(
@@ -249,9 +233,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     elevation: 16,
                                     alignment: Alignment.center,
                                     onChanged: (String? newValue) {
-                                      setState(() {
-                                        temperateDropDownValue = newValue!;
-                                      });
+                                      appstate.settings.unitTemperature = newValue!;
                                     },
                                     items: <String>['Celsius', 'Fahrenheit']
                                         .map<DropdownMenuItem<String>>(
@@ -274,7 +256,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                     style: const TextStyle(color: Colors.white),
                                     dropdownColor: const Color(0xFF85B09A),
-                                    value: heightDropDownValue,
+                                    value: appstate.settings.unitHeight,
                                     icon: const Icon(Icons.arrow_downward),
                                     iconSize: 24,
                                     padding: const EdgeInsets.symmetric(
@@ -282,9 +264,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     elevation: 16,
                                     alignment: Alignment.center,
                                     onChanged: (String? newValue) {
-                                      setState(() {
-                                        heightDropDownValue = newValue!;
-                                      });
+                                      appstate.settings.unitHeight = newValue!;
                                     },
                                     items: <String>['Meters', 'Feet']
                                         .map<DropdownMenuItem<String>>(
@@ -332,7 +312,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 )
               ],
-            ))
+            )))
       ]),
     );
   }

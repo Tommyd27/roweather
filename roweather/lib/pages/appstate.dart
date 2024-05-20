@@ -1,15 +1,17 @@
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:xml/xml.dart';
 import 'dart:convert';
 import '../helper/weather.dart';
 
 enum FlagColour { unknown, red, yellow, green }
 
 class Outing {
-  DateTime start;
-  Duration length;
-  Outing(this.start, this.length);
+  final TimeOfDay start;
+  final TimeOfDay end;
+  Outing({required this.start, required this.end});
 }
 
 class HourlyWeather {
@@ -32,20 +34,31 @@ class DailyWeather {
       this.day, this.weather, this.temperature, this.windSpeed, this.uvIndex);
 }
 
+class Settings {
+  String timeZone = 'BST';
+  bool notifyFlagColour = false;
+  bool notifyWeatherEvents = false;
+  bool notifyWeatherChange = false;
+  String language = 'English';
+  String unitSpeed = 'KM/H';
+  String unitTemperature = 'Celsius';
+  String unitHeight = 'Meters';
+}
+
 class AppState with ChangeNotifier {
   int? temperature;
   FlagColour flagColour = FlagColour.unknown;
   double? riverLevel;
-  // List<DayWeatherData> nextFewDays = <DayWeatherData>[
-  //   DayWeatherData(DateTime(2024, 5, 20), Weather.sunny),
-  //   DayWeatherData(DateTime(2024, 5, 21), Weather.partialCloudy),
-  //   DayWeatherData(DateTime(2024, 5, 22), Weather.rainy)
-  // ];
+  final HashMap<DateTime, List<Outing>> outings = HashMap();
 
-  final outings = <Outing>[];
   DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
   var hourly = <HourlyWeather>[];
   var daily = <DailyWeather>[];
+  int daySelectedIndex = 0;
+
+  final settings = Settings();
+
+  final exampleResponse = true;
 
   AppState() {
     _fetchData();
@@ -71,28 +84,36 @@ class AppState with ChangeNotifier {
   }
 
   Future<void> _fetchDailyWeather() async {
-    var response = await http.post(
-        Uri.parse(
-            "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
-        body: '''{
-	"location": "42.3478, -71.0466",
-    "fields": [
-        "temperature",
-        "windSpeed",
-        "weatherCode",
-        "uvIndex"
-    ],
-    "units": "metric",
-    "timesteps": [
-    "1d"
-    ],
-    "startTime": "now",
-    "endTime": "nowPlus4d"
-}''');
 
-    if (response.statusCode != 200)
-      throw Exception("Failure fetching weather API");
-    var js = jsonDecode(response.body);
+    var body;
+
+    if (exampleResponse) body = '{"data":{"timelines":[{"timestep":"1d","endTime":"2024-05-23T10:00:00Z","startTime":"2024-05-19T10:00:00Z","intervals":[{"startTime":"2024-05-19T10:00:00Z","values":{"temperature":12.13,"uvIndex":2,"weatherCode":1001,"windSpeed":4.81}},{"startTime":"2024-05-20T10:00:00Z","values":{"temperature":15.53,"uvIndex":5,"weatherCode":1001,"windSpeed":3.42}},{"startTime":"2024-05-21T10:00:00Z","values":{"temperature":24.73,"uvIndex":7,"weatherCode":1000,"windSpeed":6.24}},{"startTime":"2024-05-22T10:00:00Z","values":{"temperature":28.24,"uvIndex":7,"weatherCode":1100,"windSpeed":6.55}},{"startTime":"2024-05-23T10:00:00Z","values":{"temperature":20.47,"uvIndex":3,"weatherCode":1001,"windSpeed":5.18}}]}]}}';
+    else {
+      var response = await http.post(
+          Uri.parse(
+              "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
+          body: '''{
+    "location": "42.3478, -71.0466",
+      "fields": [
+          "temperature",
+          "windSpeed",
+          "weatherCode",
+          "uvIndex"
+      ],
+      "units": "metric",
+      "timesteps": [
+      "1d"
+      ],
+      "startTime": "now",
+      "endTime": "nowPlus4d"
+  }''');
+
+      if (response.statusCode != 200)
+        throw Exception("Failure fetching weather API");
+      body = response.body;
+    }
+    
+    var js = jsonDecode(body);
     daily =
         js['data']['timelines'][0]['intervals'].map<DailyWeather>((datapoint) {
       var values = datapoint['values'];
@@ -129,36 +150,44 @@ class AppState with ChangeNotifier {
   }
 
   Future<void> _fetchHourlyWeather() async {
-    var response = await http.post(
-          Uri.parse(
-              "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
-          body: '''{
-              "location": "42.3478, -71.0466",
-              "fields": [
-                "temperature",
-                "windSpeed",
-                "cloudCover",
-                "precipitationProbability"
-              ],
-              "units": "metric",
-              "timesteps": [
-                "1h"
-              ],
-              "startTime": "now",
-              "endTime": "nowPlus6h"
-            }''');
 
-      if (response.statusCode != 200)
-        throw Exception("Failure fetching weather API");
-      var js = jsonDecode(response.body);
-      hourly = js['data']['timelines'][0]['intervals']
-          .map<HourlyWeather>((datapoint) => HourlyWeather(
-              DateTime.parse(datapoint['startTime']),
-              datapoint['values']['temperature'],
-              datapoint['values']['windSpeed'],
-              datapoint['values']['cloudCover'].toDouble(),
-              datapoint['values']['precipitationProbability'].toDouble()))
-          .toList();
+    var body;
+
+    if (exampleResponse) body = '{"data":{"timelines":[{"timestep":"1h","endTime":"2024-05-19T20:00:00Z","startTime":"2024-05-19T14:00:00Z","intervals":[{"startTime":"2024-05-19T14:00:00Z","values":{"cloudCover":22,"precipitationProbability":0,"temperature":19.81,"windSpeed":4.81}},{"startTime":"2024-05-19T15:00:00Z","values":{"cloudCover":0.78,"precipitationProbability":0,"temperature":19.35,"windSpeed":5.34}},{"startTime":"2024-05-19T16:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":18.84,"windSpeed":5.23}},{"startTime":"2024-05-19T17:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":17.81,"windSpeed":5.03}},{"startTime":"2024-05-19T18:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":16.38,"windSpeed":4.8}},{"startTime":"2024-05-19T19:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":14.76,"windSpeed":4.01}},{"startTime":"2024-05-19T20:00:00Z","values":{"cloudCover":0,"precipitationProbability":0,"temperature":12.75,"windSpeed":3.69}}]}]}}';
+    else {
+      var response = await http.post(
+            Uri.parse(
+                "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
+            body: '''{
+                "location": "52.1951, 0.1313",
+                "fields": [
+                  "temperature",
+                  "windSpeed",
+                  "cloudCover",
+                  "precipitationProbability"
+                ],
+                "units": "metric",
+                "timesteps": [
+                  "1h"
+                ],
+                "startTime": "now",
+                "endTime": "nowPlus6h"
+              }''');
+
+        if (response.statusCode != 200)
+          throw Exception("Failure fetching weather API");
+        body = response.body;
+    }
+
+    var js = jsonDecode(body);
+    hourly = js['data']['timelines'][0]['intervals']
+        .map<HourlyWeather>((datapoint) => HourlyWeather(
+            DateTime.parse(datapoint['startTime']),
+            datapoint['values']['temperature'].toDouble(),
+            datapoint['values']['windSpeed'].toDouble(),
+            datapoint['values']['cloudCover'].toDouble(),
+            datapoint['values']['precipitationProbability'].toDouble()))
+        .toList();
   }
 
   Future<void> _fetchData() async {
@@ -176,12 +205,39 @@ class AppState with ChangeNotifier {
     }
   }
 
-  void addOuting(DateTime start, Duration length) {
-    outings.add(Outing(start, length));
+  bool addOuting(DateTime key, TimeOfDay start, TimeOfDay end) {
+    Outing newO = Outing(start: start, end: end);
+    if (outings[key] == null) {
+      outings.addAll({key: [newO]});
+    } else {
+      for (Outing outing in outings[key]!){
+        if (isAfter(start, outing.start) && isAfter(outing.start, end) || isAfter(start, outing.end) && isAfter(outing.end, end)) {
+          return false;
+        }
+      }
+      outings[key]!.add(newO);
+    }
+    notifyListeners();
+    return true;
+  }
+  bool isAfter(TimeOfDay t1, TimeOfDay t2) {
+    if (t2.hour > t1.hour) {
+      return true;
+    } else if (t1.hour < t2.hour){
+      return false;
+    } else if (t1.minute > t2.minute) {
+      return false;
+    }
+    return true;
   }
 
   void deleteOutings() {
     outings.clear();
+    notifyListeners();
+  }
+
+  void selectDay(int index) {
+    daySelectedIndex = index;
     notifyListeners();
   }
 }

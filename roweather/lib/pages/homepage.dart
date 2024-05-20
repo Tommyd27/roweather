@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'sections/sidebar.dart';
-import 'sections/nextfewdays.dart';
 import 'sections/selectedDay.dart';
 import 'sections/carousel.dart';
+import 'sections/hourline.dart';
 import 'package:provider/provider.dart';
 import 'appstate.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'sections/hourlybox.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -30,16 +31,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       key: scaffoldKey,
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
+
+
+        // -- background image and gradient --
         Container(
           width: double.infinity,
           decoration: const BoxDecoration(
@@ -66,16 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.6,
                   ])),
         ),
+
+
         Positioned(
-          top: 300,
+          top: 250,
           left: 0,
           right: 0,
           child: Column(children: <Widget>[
-          // Center(
-          //   //child: NextFewDays(),
-          //   child: NextDaysCarousel()
-          // ),
-          Center(child: SelectedDay()),
+          Container(
+            height: 110,
+            child: NextDaysCarousel(),
+          ),
+          SelectedDay(),
         ])),
         
         
@@ -85,131 +85,41 @@ class _MyHomePageState extends State<MyHomePage> {
             child: IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
-            )),
+            )
+        ),
+
         Consumer<AppState>(
           // Demo of using weather data in the homepage
           builder: (context, appstate, child) {
             return Container(
-                padding: const EdgeInsets.only(left: 64.0, top: 0.0),
+                height: 170,
+                alignment: Alignment.center,
                 child: appstate.flagColour == FlagColour.unknown
+                  ? CircularProgressIndicator()
+                  : Icon(
+                    Icons.flag,
+                    color: appstate.flagColour == FlagColour.green
+                      ? Colors.green
+                      : appstate.flagColour == FlagColour.yellow
+                        ? Colors.yellow
+                        : Colors.red,
+                      size: 90
+                  )
+                /*child: appstate.flagColour == FlagColour.unknown
                     ? CircularProgressIndicator()
                     : Text(
                         '''Flag is currently: ${appstate.flagColour == FlagColour.green ? "Green" : appstate.flagColour == FlagColour.yellow ? "Yellow" : "Red"}
                     
-River level (Baits Bite): ${appstate.riverLevel}m''',
+          River level (Baits Bite): ${appstate.riverLevel}m''',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 30),
-                      ));
+                      )*/
+            );
           },
         ),
-        Consumer<AppState>(
-          builder: (context, appstate, child) {
-            var spots = appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature)).toList();
-            var lbd = [LineChartBarData(spots: spots)];
-            return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:400.0, right: 32.0),
-              height: 450,
-              child: LineChart(
-                LineChartData(
-                  lineBarsData: lbd,
-                  gridData: FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(show: false),
-                  showingTooltipIndicators: spots.map((spot) {return ShowingTooltipIndicators([LineBarSpot(lbd[0], 0, spot)]);}).toList(),
-                  lineTouchData: LineTouchData(enabled: false, handleBuiltInTouches: false, 
-                  touchTooltipData: LineTouchTooltipData(
-                    tooltipMargin: 16.0,
-                    tooltipPadding: EdgeInsets.all(0),
-                    getTooltipColor: (_) => Color(0x00000000),
-                    getTooltipItems: (spots) => spots.map<LineTooltipItem>((spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20))).toList()
-                  )
-                  /*getTouchedSpotIndicator: (barData, spotIndexes) => barData.spots.map((spot) => TouchedSpotIndicatorData(
-                    const FlLine(
-                        color: Colors.pink,
-                      ),
-                      FlDotData(
-                        show: true,
-                        getDotPainter: (spot, percent, barData, index) =>
-                            FlDotCirclePainter(
-                          //radius: 8,
-                          color: Colors.green,
-                          //strokeWidth: 2,
-                          strokeColor: Colors.red,
-                        ),
-                      ),
-                    )).toList()*/
-                  )
-                ),
-                duration: Duration(milliseconds: 150), // Optional
-                curve: Curves.linear, // Optional
-              )
-            );
-          }
-        ),
-        Consumer<AppState>(
-          builder: (context, appstate, child) {
-            return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:475.0),
-              height: 525,
-              child: LineChart(
-                LineChartData(
-                  lineBarsData: [LineChartBarData(spots: 
-                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed)).toList()
-                  )],
-                  gridData: FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(show: false),
-                ),
-                duration: Duration(milliseconds: 150), // Optional
-                curve: Curves.linear, // Optional
-              )
-            );
-          }
-        ),
-        Consumer<AppState>(
-          builder: (context, appstate, child) {
-            return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:550.0),
-              height: 600,
-              child: LineChart(
-                LineChartData(
-                  minY: 0,
-                  maxY: 100,
-                  lineBarsData: [LineChartBarData(spots: 
-                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.cloudCover)).toList()
-                  )],
-                  gridData: FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(show: false),
-                ),
-                duration: Duration(milliseconds: 150), // Optional
-                curve: Curves.linear, // Optional
-              )
-            );
-          }
-        ),
-        Consumer<AppState>(
-          builder: (context, appstate, child) {
-            return Container(
-              padding: const EdgeInsets.only(left: 64.0, top:625.0),
-              height: 675,
-              child: LineChart(
-                LineChartData(
-                  minY: 0,
-                  maxY: 100,
-                  lineBarsData: [LineChartBarData(spots: 
-                    appstate.hourly.map<FlSpot>((datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.precipitationProbability)).toList()
-                  )],
-                  gridData: FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  titlesData: FlTitlesData(show: false),
-                ),
-                duration: Duration(milliseconds: 150), // Optional
-                curve: Curves.linear, // Optional
-              )
-            );
-          }
-        )
+
+        HourlyBox(),
+      
       ]),
     );
   }

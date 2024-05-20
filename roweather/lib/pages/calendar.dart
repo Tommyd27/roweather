@@ -1,8 +1,15 @@
+import 'dart:ffi';
+
+import 'package:demo/pages/appstate.dart';
+import 'package:demo/pages/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:provider/provider.dart';
 import 'sections/hours.dart';
 import 'sections/minutes.dart';
+import 'sections/sidebar.dart';
 
 
 class BookingPage extends StatefulWidget{
@@ -11,6 +18,7 @@ class BookingPage extends StatefulWidget{
 }
 
 class _BookingPageState extends State<BookingPage> {
+var scaffoldKey = GlobalKey<ScaffoldState>();
 
 final CalendarFormat _calendarFormat = CalendarFormat.month;
 DateTime _focusedCalendarDate = DateTime.now();
@@ -20,6 +28,7 @@ DateTime? selectedCalendarDate;
   int _startMin = 0;
   int _endHour = 8;
   int _endMin = 0;
+  String _textPrompt = '';
 
   late FixedExtentScrollController _controller1;
   late FixedExtentScrollController _controller2;
@@ -39,16 +48,36 @@ DateTime? selectedCalendarDate;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      drawer: Sidebar(),
       appBar: AppBar(
+      leading: GestureDetector(
+        onTap: () {
+          scaffoldKey.currentState!.openDrawer();
+        },
+        child: Icon(
+        Icons.menu,  // add custom icons also
+        color: Colors.white,
+          ),
+        ),
         backgroundColor: Color(0xFF4e7c65),
-        title: Text('Select date and time to schedule:',
-        style: TextStyle(
-          fontFamily: 'Roboto',
-          fontWeight: FontWeight.w500,
-          fontSize: 26,
-        )),
+        title: Row(
+          children: [
+            Center(
+              child: Text('Select date and time to schedule:',
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+                color: Colors.white,
+              )),
+            ),
+          ],
+        ),
       ),
       body: Container(
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width,
         color: Color(0xFF4e7c65),
         child: SingleChildScrollView(
           child: Column(
@@ -145,9 +174,10 @@ DateTime? selectedCalendarDate;
                   ]
                 )
               ),
-              SingleChildScrollView(child: SizedBox(
+              SingleChildScrollView(
+                child: SizedBox(
             height: 200,
-            width: 500,
+            width: MediaQuery.of(context).size.width*0.9,
             child: Container(
               decoration: BoxDecoration(
                 color: Color(0xffA6C5B5),
@@ -159,12 +189,13 @@ DateTime? selectedCalendarDate;
                   Container(
                     alignment: Alignment.center,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children:[
                         Container(
                           child: const Text('Start time:',
                             style: TextStyle(
                               fontFamily: 'Roboto',
-                              fontSize: 48
+                              fontSize: 32,
                             )                  
                           )
                         ),
@@ -179,7 +210,7 @@ DateTime? selectedCalendarDate;
                               Container( 
                                 child: SizedBox(
                                   height: 100,
-                                  width: 80,
+                                  width: MediaQuery.of(context).size.width*0.12,
                                   child: ListWheelScrollView.useDelegate(
                                     controller: _controller1,
                                     itemExtent: 50,
@@ -210,7 +241,7 @@ DateTime? selectedCalendarDate;
                               Container( 
                                 child: SizedBox(
                                   height: 100,
-                                  width: 80,
+                                  width: MediaQuery.of(context).size.width*0.12,
                                   child: ListWheelScrollView.useDelegate(
                                     controller: _controller2,
                                     itemExtent: 50,
@@ -242,12 +273,13 @@ DateTime? selectedCalendarDate;
                   Container(width: 50, color:Color(0xffA6C5B5) ),
                   Container(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children:[
                         Container(
                           child: const Text('End time:',
                             style: TextStyle(
                               fontFamily: 'Roboto',
-                              fontSize: 48
+                              fontSize: 32
                             )                  
                           )
                         ),
@@ -262,7 +294,7 @@ DateTime? selectedCalendarDate;
                               Container(
                                 child: SizedBox(
                                   height: 100,
-                                  width: 80,
+                                  width: MediaQuery.of(context).size.width*0.12,
                                   child: ListWheelScrollView.useDelegate(
                                     controller: _controller3,
                                     itemExtent: 50,
@@ -295,7 +327,7 @@ DateTime? selectedCalendarDate;
                               Container(
                                 child: SizedBox(
                                   height: 100,
-                                  width: 80,
+                                  width: MediaQuery.of(context).size.width*0.12,
                                   child: ListWheelScrollView.useDelegate(
                                     controller: _controller4,
                                     itemExtent: 50,
@@ -339,6 +371,99 @@ DateTime? selectedCalendarDate;
                         side: BorderSide(color: Color(0xff85B09A), width: 2.0)
                       )
                     ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFA6C5B5),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25.0),
+                    ),
+                    border: Border.all(color: Color(0xff639067), width: 4),
+                  boxShadow: [BoxShadow(
+                    color: Color(0xFF444444),
+                    spreadRadius: 3,
+                    blurRadius: 5,
+                    offset: Offset(2, 2)
+                  )
+                ]
+                ),
+                height: 100,
+                width: MediaQuery.of(context).size.width*0.7,
+                child: Center(
+                  child: GestureDetector(
+                  onTap: () {
+                    if (selectedCalendarDate == null) {
+                      setState(() {
+                        _textPrompt = 'Please select a date';
+                      });
+                    } else if (_endHour <= _startHour || (_endHour == _startHour && _endMin <= _startMin)) {
+                      setState(() {
+                        _textPrompt = 'Outing cannot end before it starts';
+                      });
+                    } else {
+                      DateTime key = DateTime(
+                        selectedCalendarDate!.year,
+                        selectedCalendarDate!.month,
+                        selectedCalendarDate!.day);
+                      TimeOfDay start = TimeOfDay(
+                        hour: _startHour,
+                        minute: _startMin);
+                      TimeOfDay end = TimeOfDay(
+                        hour: _endHour,
+                        minute: _endMin);
+                      if (Provider.of<AppState>(context, listen: false).addOuting(key, start, end)){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Roweather')));
+                      } else {
+                        setState(() {
+                          _textPrompt = 'Outing seems to clash with another';
+                        });
+                      }
+                    }
+                  
+                   },
+                  child: Text('Book',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 48,
+                    ),
+                  
+                  
+                  ),
+                  ),
+                ),
+              ),
+                    const Card(
+                      margin: EdgeInsets.all(8.0),
+                      elevation: 5.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        side: BorderSide(color: Color(0xff85B09A), width: 2.0)
+                      )
+                    ),
+              Container(
+                height: 100,
+                child: Text(
+                  _textPrompt,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                  
+
+                ),
+              ),
+                    const Card(
+                      margin: EdgeInsets.all(8.0),
+                      elevation: 5.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        side: BorderSide(color: Color(0xff85B09A), width: 2.0)
+                      )
+                    ),
+
             ],
           ),
         ),
