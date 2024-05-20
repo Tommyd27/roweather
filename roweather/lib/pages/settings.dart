@@ -16,7 +16,6 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: Sidebar(),
       body: Stack(children: <Widget>[
         Container(
           color: const Color(0xFF436855),
@@ -26,8 +25,8 @@ class _SettingsPageState extends State<SettingsPage> {
             left: 10,
             top: 20,
             child: IconButton(
-              icon: const Icon(Icons.menu, color: Colors.white),
-              onPressed: () => scaffoldKey.currentState!.openDrawer(),
+              icon: const Icon(Icons.close, color: Colors.white),
+              onPressed: () => Navigator.pop(context),
             )),
         Consumer<AppState>(
             builder: (context, appstate, child) => Padding(

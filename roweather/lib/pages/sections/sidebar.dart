@@ -40,13 +40,6 @@ class Sidebar extends StatelessWidget {
                 Color(0xFF518B72), // Set the background color of the ListTile
             child: ListTile(
               title: const Text('Home'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyHomePage(title: "Home")),
-                );
-              },
             ),
           ),
           Container(
@@ -71,6 +64,7 @@ class Sidebar extends StatelessWidget {
             child: ListTile(
               title: const Text('Settings'),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SettingsPage()),

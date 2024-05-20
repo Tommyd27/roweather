@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
             right: 0,
             child: Column(children: <Widget>[
               Container(
-                height: 110,
+                height: 100,
                 child: NextDaysCarousel(),
               ),
               SelectedDay(),
@@ -73,43 +73,73 @@ class _MyHomePageState extends State<MyHomePage> {
         Consumer<AppState>(
           builder: (context, appstate, child) {
             return Container(
-                height: 170,
+                height: 200,
+                padding: EdgeInsets.all(30),
                 alignment: Alignment.center,
                 child: appstate.flagColour == FlagColour.unknown
                     ? CircularProgressIndicator()
-                    : Icon(Icons.flag,
+                    : Column(children: 
+                        [Text("Today's CUCBC:",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          )), 
+                        Text("flag:",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          )), 
+                        Icon(Icons.flag,
                         color: appstate.flagColour == FlagColour.green
                             ? Colors.green
                             : appstate.flagColour == FlagColour.yellow
                                 ? Colors.yellow
                                 : Colors.red,
-                        size: 90));
+                        size: 90),
+                        ]));
           },
         ),
         Positioned(
             top: 60,
-            left: 100,
-            child: Text(
-              "Sunrise",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+            left: 75,
+            child: Column(
+              children: [
+                Text(
+                  "Today's Sunrise",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+                Text(
+                  "Time:",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+              ],
             )),
         Positioned(
             top: 60,
-            right: 100,
-            child: Text(
-              "Sunset",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+            right: 75,
+            child: Column(
+              children: [
+                Text(
+                  "Today's Sunset",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+                
+                Text(
+                  "Time:",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+              ],
             )),
         Positioned(
-            top: 85,
-            right: 120,
+            top: 95,
+            right: 100,
             child: Text(
               "${Provider.of<AppState>(context).lightingUp[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingUp[0].minute.toString().padLeft(2, '0')}",
               style: TextStyle(fontSize: 20, color: Colors.white),
             )),
         Positioned(
-            top: 85,
-            left: 120,
+            top: 95,
+            left: 100,
             child: Text(
               "${Provider.of<AppState>(context).lightingDown[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingDown[0].minute.toString().padLeft(2, '0')}",
               style: TextStyle(fontSize: 20, color: Colors.white),
