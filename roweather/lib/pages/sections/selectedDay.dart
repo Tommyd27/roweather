@@ -66,7 +66,7 @@ class SelectedDay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 TextComponent(info.uvIndex.toString(), sideUpText: "UV"),
-                TextComponent(formatter.format(appstate.riverLevel ?? 0), sideUpText: "M", sideDownText: "River Level") // TODO
+                appstate.riverLevel == null ? const CircularProgressIndicator() : TextComponent(formatter.format(appstate.estimateRiverLevel(info.day)), sideUpText: "M", sideDownText: "River Level") // TODO
               ])
             )
           

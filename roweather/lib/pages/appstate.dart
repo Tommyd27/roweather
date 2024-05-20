@@ -59,6 +59,9 @@ class AppState with ChangeNotifier {
   final settings = Settings();
 
   final exampleResponse = true;
+  final riverRegressionPoints = 100;
+  DateTime? lastRiverTime;
+  double? riverRegressionGradient;
 
   AppState() {
     _fetchData();
@@ -93,7 +96,7 @@ class AppState with ChangeNotifier {
           Uri.parse(
               "https://api.tomorrow.io/v4/timelines?apikey=CYpkQpfLKYHARs2asQLOQ0GD214pX57F"),
           body: '''{
-    "location": "42.3478, -71.0466",
+    "location": "52.1951, 0.1313",
       "fields": [
           "temperature",
           "windSpeed",
@@ -142,11 +145,36 @@ class AppState with ChangeNotifier {
         
       */
       var response = await http.get(Uri.parse(
-          'https://environment.data.gov.uk/flood-monitoring/id/stations/E60101/measures'));
+          'https://environment.data.gov.uk/flood-monitoring/id/measures/E60101-level-stage-i-15_min-mASD/readings?_sorted&_limit=${riverRegressionPoints.toString()}'));
       if (response.statusCode != 200)
         throw Exception("Failure fetching weather API");
       var js = jsonDecode(response.body);
-      riverLevel = js['items'][0]['latestReading']['value'];
+
+      riverLevel = js['items'][0]['value'].toDouble();
+      lastRiverTime = DateTime.parse(js['items'][0]['dateTime']);
+      
+      var points = <double, double>{for (var v in js['items']) DateTime.parse(v['dateTime']).difference(lastHour).inMinutes.toDouble(): v['value'].toDouble()};
+
+      /*
+      // linear regression (least squares)      
+      var sx = points.keys.reduce((value, element) => value+element);
+      var sy = points.values.reduce((value, element) => value+element);
+      var sxx = points.keys.reduce((value, element) => value+element*element);
+      var sxy = points.entries.fold(0.0, (value, element) => value+element.key*element.value);
+      riverRegressionA = (sy*sxx-sy*sxy)/(points.length*sxx-sx*sx);
+      riverRegressionB = (points.length*sxy-sx*sy)/(points.length*sxx-sx*sx);
+      */
+
+      // simple linear regression (must pass through last point)
+      var mx = points.keys.reduce((value, element) => value+element)/points.length;
+      var my = points.values.reduce((value, element) => value+element)/points.length;
+
+      riverRegressionGradient = (riverLevel!-my)/(lastRiverTime!.difference(lastHour).inMinutes.toDouble()-mx);
+      
+  }
+
+  double estimateRiverLevel(DateTime at) {
+    return riverLevel!+at.difference(lastHour).inMinutes.toDouble()*riverRegressionGradient!;
   }
 
   Future<void> _fetchHourlyWeather() async {
