@@ -401,8 +401,8 @@ class CarouselElement extends StatelessWidget {
                 appstate.flagColour]! // TODO: Change to flag colour prediction
             ),
         Positioned(
-          left: 10, // adjust as needed
-          top: 40, // adjust as needed
+          left: 10,
+          top: 40,
           child: Align(
             alignment: Alignment.topCenter,
             child: outings.isNotEmpty

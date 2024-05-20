@@ -25,8 +25,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                'assets/loading_backdrop.png'), // replace with your image path
+            image: AssetImage('assets/loading_backdrop.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -43,8 +42,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 ),
               ),
               SizedBox(height: 30),
-              Image.asset(
-                  'assets/roweather_logo.png'), // replace with your icon path
+              Image.asset('assets/roweather_logo.png'),
               SizedBox(height: 30),
               CircularProgressIndicator(),
               SizedBox(height: 30),
