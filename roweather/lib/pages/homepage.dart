@@ -73,17 +73,23 @@ class _MyHomePageState extends State<MyHomePage> {
         Consumer<AppState>(
           builder: (context, appstate, child) {
             return Container(
-                height: 150,
-                padding: EdgeInsets.all(20),
+                height: 200,
+                padding: EdgeInsets.all(30),
                 alignment: Alignment.center,
                 child: appstate.flagColour == FlagColour.unknown
                     ? CircularProgressIndicator()
                     : Column(children: 
-                        [Text("Today's CBCUC flag rating:",
+                        [Text("Today's CUCBC:",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
-                          )), Icon(Icons.flag,
+                          )), 
+                        Text("flag:",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          )), 
+                        Icon(Icons.flag,
                         color: appstate.flagColour == FlagColour.green
                             ? Colors.green
                             : appstate.flagColour == FlagColour.yellow
@@ -94,8 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
         Positioned(
-            top: 50,
-            left: 60,
+            top: 60,
+            left: 75,
             child: Column(
               children: [
                 Text(
@@ -109,8 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             )),
         Positioned(
-            top: 50,
-            right: 60,
+            top: 60,
+            right: 75,
             child: Column(
               children: [
                 Text(
@@ -125,15 +131,15 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             )),
         Positioned(
-            top: 85,
-            right: 80,
+            top: 95,
+            right: 100,
             child: Text(
               "${Provider.of<AppState>(context).lightingUp[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingUp[0].minute.toString().padLeft(2, '0')}",
               style: TextStyle(fontSize: 20, color: Colors.white),
             )),
         Positioned(
-            top: 85,
-            left: 80,
+            top: 95,
+            left: 100,
             child: Text(
               "${Provider.of<AppState>(context).lightingDown[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingDown[0].minute.toString().padLeft(2, '0')}",
               style: TextStyle(fontSize: 20, color: Colors.white),
