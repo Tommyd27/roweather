@@ -46,12 +46,14 @@ class SelectedDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       Consumer<AppState>(builder: (context, appstate, child) {
-        DailyWeather? info = appstate.daily[appstate.daySelectedIndex];
+        DailyWeather? info = appstate.daily?[appstate.daySelectedIndex];
         double? temp = info?.temperature;
         double? wind = info?.windSpeed;
         String tempSign = "°C";
         String speedUnits = "KM/H";
         String lengthUnits = "m";
+        if (info == null) return const CircularProgressIndicator();
+
         if (appstate.settings.unitTemperature == "Fahrenheit") {
           temp = 1.8 * temp! + 32;
           tempSign = '°F';
@@ -81,8 +83,8 @@ class SelectedDay extends StatelessWidget {
                         '${NumberFormat("#0").format(temp ?? 19)}' + tempSign),
                     TextComponent(formatter.format(wind ?? 8.2),
                         sideUpText: speedUnits, sideDownText: "Wind"),
-                    TextComponent("2.3",
-                        sideUpText: speedUnits, sideDownText: "Water"), // TODO
+                    TextComponent(NumberFormat("#0").format(info.humidity ?? 50),
+                        sideUpText: "%", sideDownText: "Humidity")
                   ]),
               Container(
                   child: Row(
@@ -96,7 +98,7 @@ class SelectedDay extends StatelessWidget {
                                 formatter.format(
                                     appstate.estimateRiverLevel(info.day)),
                                 sideUpText: lengthUnits,
-                                sideDownText: "River Level") // TODO
+                                sideDownText: "River Level")
                       ]))
             ]));
       });
