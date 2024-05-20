@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 import '../appstate.dart';
 import 'package:intl/intl.dart';
 
+/**
+ * Widget which displays a single statistic
+ */
 class TextComponent extends StatelessWidget {
   final String mainText;
   final String? sideUpText;
@@ -38,6 +41,9 @@ class TextComponent extends StatelessWidget {
   }
 }
 
+/** 
+ * Widget for the section displaying weather statistics for the selected day
+ */
 class SelectedDay extends StatelessWidget {
   SelectedDay({super.key});
 
@@ -47,13 +53,16 @@ class SelectedDay extends StatelessWidget {
   Widget build(BuildContext context) =>
       Consumer<AppState>(builder: (context, appstate, child) {
         DailyWeather? info = appstate.daily?[appstate.daySelectedIndex];
-        double? temp = info?.temperature;
-        double? wind = info?.windSpeed;
+        // Does not load widget if daily weather API has not been fetched
+        if (info == null) return const CircularProgressIndicator();
+
+        double? temp = info.temperature;
+        double? wind = info.windSpeed;
         String tempSign = "°C";
         String speedUnits = "KM/H";
         String lengthUnits = "m";
-        if (info == null) return const CircularProgressIndicator();
 
+        // Metric / imperial units conversion
         if (appstate.settings.unitTemperature == "Fahrenheit") {
           temp = 1.8 * temp! + 32;
           tempSign = '°F';
@@ -69,13 +78,13 @@ class SelectedDay extends StatelessWidget {
         return Container(
             margin: const EdgeInsets.all(8),
             child: Column(children: [
-              Text("Selected day statistics:",
+              const Text("Selected day statistics:",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),
               ),
-              Card(margin: EdgeInsets.only(top: 5),),
+              const Card(margin: EdgeInsets.only(top: 5),),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
