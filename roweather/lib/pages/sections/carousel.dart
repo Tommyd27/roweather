@@ -21,6 +21,8 @@ class CarouselElement extends StatelessWidget {
   // Copy of the current appstate, passed down from parent Carousel widget
   final AppState appstate;
 
+  final bool selected;
+
   // Mapping from the FlagColour state to the icon displayed
   static const Map<FlagColour, Widget> flagIcons = {
     FlagColour.green: Icon(
@@ -43,7 +45,7 @@ class CarouselElement extends StatelessWidget {
     Weather.rainy: "rainy",
   };
 
-  CarouselElement(this.index, this.appstate, {super.key});
+  CarouselElement(this.index, this.appstate, {super.key}) : selected = index == appstate.daySelectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +59,40 @@ class CarouselElement extends StatelessWidget {
           child: Container(
             height: 110,
             decoration: BoxDecoration(
-              color: const Color(0xff85B09A).withOpacity(0.30),
+              // color: const Color(0xff85B09A).withOpacity(0.30),
               borderRadius: const BorderRadius.all(Radius.circular(7)),
-              gradient: (appstate.daySelectedIndex == index)
-                  ? RadialGradient(
-                      colors: [const Color(0xff85B09A), Colors.grey.shade900],
-                      center: Alignment.center,
+              boxShadow: selected ? null : const [
+                BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.3), blurRadius: 6, spreadRadius: 1, blurStyle: BlurStyle.outer)
+              ],
+              gradient: selected
+                  ? const RadialGradient(
+                      colors: [
+                        Color.fromRGBO(253, 253, 253, 0.24), 
+                        Color.fromRGBO(245, 245, 245, 0.19), 
+                        Color.fromRGBO(223, 223, 223, 0.04),
+                      ],
+                      stops: [
+                        0,
+                        0.8,
+                        1
+                      ],
+                      center: Alignment.topLeft,
                       radius: 0.99,
                     )
-                  : null,
+                  : const RadialGradient(
+                      colors: [
+                        Color.fromRGBO(223, 223, 223, 0.04),
+                        Color.fromRGBO(245, 245, 245, 0.19), 
+                        Color.fromRGBO(253, 253, 253, 0.24), 
+                      ],
+                      stops: [
+                        0,
+                        0.5,
+                        1
+                      ],
+                      center: Alignment.topLeft,
+                      radius: 0.99,
+                    ),
             ),
             child: ListTile(onTap: () {
               appstate.selectDay(index);
