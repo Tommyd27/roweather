@@ -94,18 +94,35 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
         Positioned(
-            top: 60,
-            left: 100,
-            child: Text(
-              "Today's Sunrise Time:",
-              style: TextStyle(fontSize: 16, color: Colors.white),
+            top: 50,
+            left: 120,
+            child: Column(
+              children: [
+                Text(
+                  "Today's Sunrise",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+                Text(
+                  "Time:",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+              ],
             )),
         Positioned(
-            top: 60,
-            right: 100,
-            child: Text(
-              "Today's Sunset Time:",
-              style: TextStyle(fontSize: 16, color: Colors.white),
+            top: 50,
+            right: 120,
+            child: Column(
+              children: [
+                Text(
+                  "Today's Sunset",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+                
+                Text(
+                  "Time:",
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+              ],
             )),
         Positioned(
             top: 85,
