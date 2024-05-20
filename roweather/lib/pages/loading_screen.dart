@@ -37,7 +37,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         child: Center(
           //center the roweather text and icon
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 'Roweather',
@@ -52,12 +51,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
               SizedBox(height: 30),
               CircularProgressIndicator(),
               SizedBox(height: 30),
-              Positioned(
                   //add finding weather data text
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
+              Container(
                     color: Colors.grey.withOpacity(0.5),
                     padding: EdgeInsets.all(10.0),
                     child: Text(
@@ -68,7 +63,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                  ))
+                  )
             ],
           ),
         ),
