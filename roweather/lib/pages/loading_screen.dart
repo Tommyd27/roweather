@@ -1,13 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; //import packages
 import 'homepage.dart';
 
+//loading screen widget
 class LoadingScreen extends StatefulWidget {
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
 
+//state for loading screen
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
+  //init state
   void initState() {
     super.initState();
     // Navigate to home page after 5 seconds
@@ -22,14 +25,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //return page content
       body: Container(
         decoration: BoxDecoration(
+          //background image
           image: DecorationImage(
             image: AssetImage('assets/loading_backdrop.png'),
             fit: BoxFit.cover,
           ),
         ),
         child: Center(
+          //center the roweather text and icon
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -41,12 +47,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 30), //add spacing
               Image.asset('assets/roweather_logo.png'),
               SizedBox(height: 30),
               CircularProgressIndicator(),
               SizedBox(height: 30),
               Positioned(
+                  //add finding weather data text
                   left: 0,
                   right: 0,
                   bottom: 0,
