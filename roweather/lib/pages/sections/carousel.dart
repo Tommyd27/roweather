@@ -332,10 +332,6 @@ class CarouselElement extends StatelessWidget {
   final int index;
   final AppState appstate;
 
-  final List<Icon> weatherIcons = [
-    const Icon(Icons.sunny, color: Colors.amber),
-    Icon(Icons.cloud, color: Colors.grey[400]),
-  ];
   static const Map<FlagColour, Widget> flagIcons = {
     FlagColour.green: Icon(
       Icons.flag,
@@ -363,6 +359,7 @@ class CarouselElement extends StatelessWidget {
     var outings = appstate.getOutingsForDay(appstate.daily[index].day);
     outings.sort((a, b) => a.start.hour.compareTo(b.start.hour));
     return Stack(
+      clipBehavior: Clip.none,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
