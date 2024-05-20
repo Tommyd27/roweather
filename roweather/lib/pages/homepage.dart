@@ -35,8 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
       key: scaffoldKey,
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
-
-
         // -- background image and gradient --
         Container(
           width: double.infinity,
@@ -65,28 +63,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   ])),
         ),
 
-
         Positioned(
-          top: 250,
-          left: 0,
-          right: 0,
-          child: Column(children: <Widget>[
-          Container(
-            height: 110,
-            child: NextDaysCarousel(),
-          ),
-          SelectedDay(),
-        ])),
-        
-        
+            top: 250,
+            left: 0,
+            right: 0,
+            child: Column(children: <Widget>[
+              Container(
+                height: 110,
+                child: NextDaysCarousel(),
+              ),
+              SelectedDay(),
+            ])),
         Positioned(
             left: 10,
             top: 20,
             child: IconButton(
               icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
-            )
-        ),
+            )),
 
         Consumer<AppState>(
           // Demo of using weather data in the homepage
@@ -95,22 +89,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 170,
                 alignment: Alignment.center,
                 child: appstate.flagColour == FlagColour.unknown
-                  ? CircularProgressIndicator()
-                  : Icon(
-                    Icons.flag,
-                    color: appstate.flagColour == FlagColour.green
-                      ? Colors.green
-                      : appstate.flagColour == FlagColour.yellow
-                        ? Colors.yellow
-                        : Colors.red,
-                      size: 90
-                  )
-            );
+                    ? CircularProgressIndicator()
+                    : Icon(Icons.flag,
+                        color: appstate.flagColour == FlagColour.green
+                            ? Colors.green
+                            : appstate.flagColour == FlagColour.yellow
+                                ? Colors.yellow
+                                : Colors.red,
+                        size: 90));
           },
         ),
+        Positioned(
+            top: 60,
+            left: 100,
+            child: Text(
+              "Sunrise",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            )),
+        Positioned(
+            top: 60,
+            right: 100,
+            child: Text(
+              "Sunset",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            )),
 
+        Positioned(
+            top: 85,
+            right: 120,
+            child: Text(
+              "${Provider.of<AppState>(context).lightingUp[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingUp[0].minute.toString().padLeft(2, '0')}",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            )),
+        Positioned(
+            top: 85,
+            left: 120,
+            child: Text(
+              "${Provider.of<AppState>(context).lightingDown[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingDown[0].minute.toString().padLeft(2, '0')}",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            )),
         HourlyBox(),
-      
       ]),
     );
   }
