@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         Positioned(
             top: 50,
-            left: 120,
+            left: 80,
             child: Column(
               children: [
                 Text(
@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
             )),
         Positioned(
             top: 50,
-            right: 120,
+            right: 80,
             child: Column(
               children: [
                 Text(
