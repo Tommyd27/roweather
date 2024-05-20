@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; //imports
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'sections/sidebar.dart';
@@ -10,6 +10,7 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
+//settings page
 class _SettingsPageState extends State<SettingsPage> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -18,12 +19,12 @@ class _SettingsPageState extends State<SettingsPage> {
       key: scaffoldKey,
       body: Stack(children: <Widget>[
         Container(
-          color: const Color(0xFF436855),
+          color: const Color(0xFF436855), //background color
           width: double.infinity,
         ),
         Positioned(
             left: 10,
-            top: 20,
+            top: 20, //nav menu
             child: IconButton(
               icon: const Icon(Icons.close, color: Colors.white),
               onPressed: () => Navigator.pop(context),
@@ -35,6 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Center(
+                      //centered settings text
                       child: Text('Settings',
                           style: TextStyle(
                               fontSize: 50,
@@ -42,6 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               fontWeight: FontWeight.bold)),
                     ),
                     const Center(
+                      //notifaction settings
                       child: Text('Notifications',
                           style: TextStyle(
                               fontSize: 24,
@@ -49,6 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               fontWeight: FontWeight.bold)),
                     ),
                     CheckboxListTile(
+                      //checkbox for flag colour
                       title: const Text("Flag Colour Changes",
                           style: TextStyle(fontSize: 18, color: Colors.white)),
                       value: appstate.settings.notifyFlagColour,
@@ -59,6 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       controlAffinity: ListTileControlAffinity.leading,
                     ),
                     CheckboxListTile(
+                      //checkbox for weather events
                       title: const Text("Severe Weather Events",
                           style: TextStyle(fontSize: 18, color: Colors.white)),
                       value: appstate.settings.notifyWeatherEvents,
@@ -69,6 +74,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       controlAffinity: ListTileControlAffinity.leading,
                     ),
                     CheckboxListTile(
+                      //checkbox for weather changes
                       title: const Text(
                           "Change in Weather during Planned Outing",
                           style: TextStyle(fontSize: 18, color: Colors.white)),
@@ -80,10 +86,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       controlAffinity: ListTileControlAffinity.leading,
                     ),
                     const Divider(
+                      //divider
                       color: Color.fromARGB(255, 0, 0, 0),
                       height: 5,
                     ),
                     const Center(
+                      //centered localization settings
                       child: Text('Localization Settings',
                           style: TextStyle(
                               fontSize: 24,
@@ -91,6 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               fontWeight: FontWeight.bold)),
                     ),
                     IntrinsicHeight(
+                        //drop down menu for language, timezone, speed, temperature, and height
                         child: Row(
                       children: <Widget>[
                         Expanded(
@@ -134,6 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         }).toList(),
                                       ))),
                               Center(
+                                //centered timezone
                                 child: Container(
                                     color: const Color(0xFF85B09A),
                                     child: DropdownButtonFormField<String>(
@@ -170,10 +180,12 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                         const VerticalDivider(
+                          //vertical divider
                           color: Color.fromARGB(255, 0, 0, 0),
                           thickness: 3,
                         ),
                         Expanded(
+                          //expanded column
                           child: Column(
                             children: <Widget>[
                               Center(
@@ -282,10 +294,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       ],
                     )),
                     const Divider(
+                      //divider
                       color: Color.fromARGB(255, 0, 0, 0),
                       height: 5,
                     ),
                     const Center(
+                      //centered account settings
                       child: Text('Account Settings',
                           style: TextStyle(
                               fontSize: 24,
@@ -293,6 +307,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               fontWeight: FontWeight.bold)),
                     ),
                     ElevatedButton(
+                      //delete outing data button
                       onPressed: () {
                         Provider.of<AppState>(context, listen: false)
                             .deleteOutings();
@@ -300,6 +315,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: const Text('Delete Outing Data'),
                     ),
                     ElevatedButton(
+                      //delete account data button
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
