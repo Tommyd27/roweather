@@ -1,3 +1,4 @@
+import 'package:demo/pages/homepage.dart';
 import 'package:flutter/material.dart'; //imports
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
             top: 20, //nav menu
             child: IconButton(
               icon: const Icon(Icons.close, color: Colors.white),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Roweather'))),
             )),
         Consumer<AppState>(
             builder: (context, appstate, child) => Padding(
