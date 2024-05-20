@@ -1,5 +1,6 @@
 import 'package:demo/pages/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import '../calendar.dart';
 import '../settings.dart';
 
@@ -8,6 +9,8 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+        child: Container(
+      color: Color(0xFF003330),
       child: ListView(
         // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
@@ -32,36 +35,51 @@ class Sidebar extends StatelessWidget {
           SizedBox(
             height: 60,
           ),
-          ListTile(
-            title: const Text('Home'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MyHomePage(title: "Home")),
-              );
-            },
+          Container(
+            color:
+                Color(0xFF518B72), // Set the background color of the ListTile
+            child: ListTile(
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyHomePage(title: "Home")),
+                );
+              },
+            ),
           ),
-          ListTile(
-            title: const Text('Book an Outing'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BookingPage()),
-              );
-            },
+          Container(
+            color:
+                Color(0xFF518B72), // Set the background color of the ListTile
+            child: ListTile(
+              title: const Text('Book an Outing'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookingPage()),
+                );
+              },
+            ),
           ),
-          ListTile(
-            title: const Text('Settings'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsPage()),
-              );
-            },
+          SizedBox(
+            height: 485,
+          ),
+          Container(
+            color:
+                Color(0xFF518B72), // Set the background color of the ListTile
+            child: ListTile(
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
           ),
         ],
       ),
-    );
+    ));
   }
 }
