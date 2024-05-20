@@ -33,13 +33,13 @@ class HourlyBox extends Container {
             child: HourLine(
               appstate,
               (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.temperature),
-              (spot) => LineTooltipItem("${spot.y.round().toString()}°", TextStyle(color: Colors.white, fontSize: 20)),
+              (spot) => LineTooltipItem("${(appstate.settings.unitTemperature == "Celsius" ? spot.y : 1.8 * spot.y + 32).round().toString()}°", const TextStyle(color: Colors.white, fontSize: 20)),
             )),
             Container(padding: const EdgeInsets.only(top: 15),
             child: const Icon(Icons.device_thermostat_outlined, size: 48, color: Colors.white)),
             Container(padding: const EdgeInsets.only(top: 60, left: 10),
-            child: const Text(
-            "°C",
+            child: Text(
+            {"Celsius": "°C", "Fahrenheit": "°F"}[appstate.settings.unitTemperature]!,
             style: TextStyle(color: Colors.white, fontSize: 20)
           )),
             ]))),
@@ -50,14 +50,14 @@ class HourlyBox extends Container {
             child: HourLine(
               appstate,
               (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.windSpeed),
-              (spot) => LineTooltipItem(spot.y.round().toString(), TextStyle(color: Colors.white, fontSize: 20)),
+              (spot) => LineTooltipItem((appstate.settings.unitSpeed == 'KM/H' ? spot.y : spot.y/1.609).toStringAsFixed(1), const TextStyle(color: Colors.white, fontSize: 20)),
             )
           ),
           Container(padding: const EdgeInsets.only(top: 15, left: 6),
             child: const Icon(Icons.air_outlined, size: 40, color: Colors.white)),
           Container(padding: const EdgeInsets.only(top: 60, left: 4),
-            child: const Text(
-            "KM/H", style: TextStyle(color: Colors.white, fontSize: 20))),
+            child: Text(
+            appstate.settings.unitSpeed, style: const TextStyle(color: Colors.white, fontSize: 20))),
           ]))),
           SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Stack(children: [
             Container(
