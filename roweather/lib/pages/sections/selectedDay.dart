@@ -50,15 +50,33 @@ class SelectedDay extends StatelessWidget {
   Widget build(BuildContext context) => 
     Consumer<AppState>(builder: (context, appstate, child) {
       DailyWeather? info = appstate.daily[appstate.daySelectedIndex];
+      double? temp = info?.temperature;
+      double? wind = info?.windSpeed;
+      double? riverLevel = 2.3;
+      String tempSign = "°C";
+      String speedUnits = "KM/H";
+      String lengthUnits = "m";
+      if (appstate.settings.unitTemperature == "Fahrenheit") {
+        temp = 1.8 * temp! + 32;
+        tempSign = '°F';
+      }
+      if (appstate.settings.unitSpeed == "MPH") {
+        wind = wind! / 1.609;
+        speedUnits = "MPH";
+      }
+      if (appstate.settings.unitHeight == "Feet") {
+        riverLevel = riverLevel! * 3.281;
+        speedUnits = "ft";
+      }
       return Container(
         margin: const EdgeInsets.all(8),
         child: Column(children: [
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                TextComponent('${NumberFormat("#0").format(info?.temperature ?? 19)}°'),
-                TextComponent(formatter.format(info?.windSpeed ?? 8.2), sideUpText: "KM/H", sideDownText: "Wind"),
-                TextComponent("2.3", sideUpText: "KM/H", sideDownText: "Water"), // TODO
+                TextComponent('${NumberFormat("#0").format(temp ?? 19)}' + tempSign),
+                TextComponent(formatter.format(wind ?? 8.2), sideUpText: speedUnits, sideDownText: "Wind"),
+                TextComponent("2.3", sideUpText: speedUnits, sideDownText: "Water"), // TODO
               ]),
           Container(
             margin: const EdgeInsets.only(top: 5),
@@ -66,7 +84,7 @@ class SelectedDay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 TextComponent(info.uvIndex.toString(), sideUpText: "UV"),
-                TextComponent(formatter.format(appstate.riverLevel ?? 0), sideUpText: "M", sideDownText: "River Level") // TODO
+                TextComponent(formatter.format(riverLevel ?? 0), sideUpText: lengthUnits, sideDownText: "River Level") // TODO
               ])
             )
           

@@ -336,15 +336,17 @@ class CarouselElement extends StatelessWidget {
     const Icon(Icons.sunny, color: Colors.amber),
     Icon(Icons.cloud, color: Colors.grey[400]),
   ];
-  static const Map<FlagColour, Icon> flagIcons = {
+  static const Map<FlagColour, Widget> flagIcons = {
     FlagColour.green: Icon(
       Icons.flag,
       color: Colors.green,
     ),
     FlagColour.yellow: Icon(Icons.flag, color: Colors.yellow),
     FlagColour.red: Icon(Icons.flag, color: Colors.red),
-    FlagColour.unknown:
-        Icon(Icons.flag, color: Colors.red), // TODO maybe change
+    FlagColour.unknown: Text(
+      'No flag data',
+      style: TextStyle(color: Colors.white, fontSize: 12),
+    ),
   };
 
   static const Map<Weather, String> weatherToImage = {

@@ -1,4 +1,4 @@
-import 'dart:ffi';
+//import 'dart:ffi';
 
 import 'package:demo/pages/appstate.dart';
 import 'package:demo/pages/homepage.dart';
@@ -53,24 +53,39 @@ class _BookingPageState extends State<BookingPage> {
             onTap: () {
               scaffoldKey.currentState!.openDrawer();
             },
-            child: Icon(
+            child: const Icon(
               Icons.menu, // add custom icons also
               color: Colors.white,
             ),
           ),
           backgroundColor: Color(0xFF4e7c65),
-          title: Row(
+          /*title: const Row(
             children: [
               Center(
-                child: Text('Select date and time to schedule:',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 24,
-                      color: Colors.white,
-                    )),
+                child: Text(
+                  'Select date and time to schedule:',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
+          ),*/
+          title: const FittedBox(
+            alignment: Alignment.topLeft,
+            fit: BoxFit.fitWidth,
+            child: Text(
+              'Select date and time to schedule:',
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
         body: Container(
@@ -128,7 +143,7 @@ class _BookingPageState extends State<BookingPage> {
                           size: 28,
                         ),
                       ),
-                      calendarStyle: CalendarStyle(
+                      calendarStyle: const CalendarStyle(
                           weekendTextStyle: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'Roboto',
