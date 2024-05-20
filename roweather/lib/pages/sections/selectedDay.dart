@@ -52,7 +52,6 @@ class SelectedDay extends StatelessWidget {
       DailyWeather? info = appstate.daily[appstate.daySelectedIndex];
       double? temp = info?.temperature;
       double? wind = info?.windSpeed;
-      double? riverLevel = 2.3;
       String tempSign = "°C";
       String speedUnits = "KM/H";
       String lengthUnits = "m";
@@ -66,7 +65,7 @@ class SelectedDay extends StatelessWidget {
       }
       if (appstate.settings.unitHeight == "Feet") {
         riverLevel = riverLevel! * 3.281;
-        speedUnits = "ft";
+        lengthUnits = "ft";
       }
       return Container(
         margin: const EdgeInsets.all(8),
