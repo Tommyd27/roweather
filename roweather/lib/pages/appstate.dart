@@ -30,8 +30,9 @@ class DailyWeather {
   double temperature;
   double windSpeed;
   int uvIndex;
+  int humidity;
   DailyWeather(
-      this.day, this.weather, this.temperature, this.windSpeed, this.uvIndex);
+      this.day, this.weather, this.temperature, this.windSpeed, this.uvIndex, this.humidity);
 }
 
 class Settings {
@@ -53,7 +54,7 @@ class AppState with ChangeNotifier {
 
   DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
   var hourly = <HourlyWeather>[];
-  var daily = <DailyWeather>[];
+  List<DailyWeather>? daily;
   int daySelectedIndex = 0;
   var lightingDown = <TimeOfDay>[TimeOfDay(hour: 0, minute: 0)];
   var lightingUp = <TimeOfDay>[TimeOfDay(hour: 0, minute: 0)];
@@ -96,7 +97,7 @@ class AppState with ChangeNotifier {
 
     if (exampleResponse)
       body =
-          '{"data":{"timelines":[{"timestep":"1d","endTime":"2024-05-23T10:00:00Z","startTime":"2024-05-19T10:00:00Z","intervals":[{"startTime":"2024-05-19T10:00:00Z","values":{"temperature":12.13,"uvIndex":2,"weatherCode":1001,"windSpeed":4.81}},{"startTime":"2024-05-20T10:00:00Z","values":{"temperature":15.53,"uvIndex":5,"weatherCode":1001,"windSpeed":3.42}},{"startTime":"2024-05-21T10:00:00Z","values":{"temperature":24.73,"uvIndex":7,"weatherCode":1000,"windSpeed":6.24}},{"startTime":"2024-05-22T10:00:00Z","values":{"temperature":28.24,"uvIndex":7,"weatherCode":1100,"windSpeed":6.55}},{"startTime":"2024-05-23T10:00:00Z","values":{"temperature":20.47,"uvIndex":3,"weatherCode":1001,"windSpeed":5.18}}]}]}}';
+          '{"data":{"timelines":[{"timestep":"1d","endTime":"2024-05-24T10:00:00Z","startTime":"2024-05-20T10:00:00Z","intervals":[{"startTime":"2024-05-20T10:00:00Z","values":{"humidity":94,"temperature":16.53,"uvIndex":6,"weatherCode":1001,"windSpeed":3.5}},{"startTime":"2024-05-21T10:00:00Z","values":{"humidity":86.01,"temperature":26.73,"uvIndex":7,"weatherCode":1001,"windSpeed":4.86}},{"startTime":"2024-05-22T10:00:00Z","values":{"humidity":84.34,"temperature":26.39,"uvIndex":7,"weatherCode":1000,"windSpeed":6.59}},{"startTime":"2024-05-23T10:00:00Z","values":{"humidity":87.82,"temperature":27.98,"uvIndex":6,"weatherCode":1001,"windSpeed":4.98}},{"startTime":"2024-05-24T10:00:00Z","values":{"humidity":84.01,"temperature":27.11,"uvIndex":7,"weatherCode":1001,"windSpeed":4.5}}]}]}}';
     else {
       var response = await http.post(
           Uri.parse(
@@ -107,7 +108,8 @@ class AppState with ChangeNotifier {
           "temperature",
           "windSpeed",
           "weatherCode",
-          "uvIndex"
+          "uvIndex",
+          "humidity"
       ],
       "units": "metric",
       "timesteps": [
@@ -132,6 +134,7 @@ class AppState with ChangeNotifier {
         values['temperature'],
         values['windSpeed'],
         values['uvIndex'],
+        values['humidity'] is int ? values['humidity'] : values['humidity'].round()
       );
     }).toList();
 
@@ -153,7 +156,7 @@ class AppState with ChangeNotifier {
     var response = await http.get(Uri.parse(
         'https://environment.data.gov.uk/flood-monitoring/id/measures/E60101-level-stage-i-15_min-mASD/readings?_sorted&_limit=${riverRegressionPoints.toString()}'));
     if (response.statusCode != 200)
-      throw Exception("Failure fetching weather API");
+      throw Exception("Failure fetching river level API");
     var js = jsonDecode(response.body);
 
     riverLevel = js['items'][0]['value'].toDouble();

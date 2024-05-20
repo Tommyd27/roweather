@@ -356,7 +356,7 @@ class CarouselElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var outings = appstate.getOutingsForDay(appstate.daily[index].day);
+    var outings = appstate.getOutingsForDay(appstate.daily![index].day);
     outings.sort((a, b) => a.start.hour.compareTo(b.start.hour));
     return Stack(
       clipBehavior: Clip.none,
@@ -386,7 +386,7 @@ class CarouselElement extends StatelessWidget {
           left: 20,
           top: 10,
           child: Text(
-            DateFormat("E d").format(appstate.daily[index].day),
+            DateFormat("E d").format(appstate.daily![index].day),
             style: const TextStyle(
                 fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -428,7 +428,7 @@ class CarouselElement extends StatelessWidget {
             bottom: -5,
             child: Image(
                 image: AssetImage(
-                    'assets/icons/${weatherToImage[appstate.daily[index].weather]}.png'),
+                    'assets/icons/${weatherToImage[appstate.daily![index].weather]}.png'),
                 width: 70))
       ],
     );
@@ -438,12 +438,16 @@ class CarouselElement extends StatelessWidget {
 class _NextDaysCarouselState extends State<NextDaysCarousel> {
   @override
   Widget build(BuildContext context) => Consumer<AppState>(
-      builder: (context, appstate, child) => ListView.builder(
+      builder: (context, appstate, child) {
+        if (appstate.daily == null) return const CircularProgressIndicator();
+        return ListView.builder(
             itemExtent: 150.0,
             padding: const EdgeInsets.all(8),
             scrollDirection: Axis.horizontal,
-            itemCount: appstate.daily.length,
+            itemCount: appstate.daily!.length,
             itemBuilder: (BuildContext context, int index) =>
                 CarouselElement(index, appstate),
-          ));
+          );
+      }
+  );
 }
