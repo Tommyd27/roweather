@@ -55,7 +55,8 @@ class AppState with ChangeNotifier {
   var hourly = <HourlyWeather>[];
   var daily = <DailyWeather>[];
   int daySelectedIndex = 0;
-
+  var lightingDown = <TimeOfDay>[TimeOfDay(hour: 0, minute: 0)];
+  var lightingUp = <TimeOfDay>[TimeOfDay(hour: 0, minute: 0)];
   final settings = Settings();
 
   final exampleResponse = true;
@@ -196,6 +197,35 @@ class AppState with ChangeNotifier {
         .toList();
   }
 
+  Future<void> _fetchLightingTimes() async {
+    var response = await http.get(Uri.parse('https://www.cucbc.org/lighting'));
+    if (response.statusCode != 200)
+      throw Exception("Failure fetching CUCBC lighting times");
+
+    var body = response.body;
+    var tableData = body.split('<table>')[1].split('</table>')[0];
+    var rows = tableData.split('<tr>');
+    rows.removeRange(0, 2);
+    for (var row in rows) {
+      if (row.isEmpty) continue;
+      var cells = row.split('<td>');
+      if (cells.isNotEmpty) {
+        var lightingDown = cells[3].split('</td>')[0];
+        var lightingUp = cells[4].split('</td>')[0];
+        List<String> lightDown = lightingDown.split(':');
+        TimeOfDay lightDownTime = TimeOfDay(
+            hour: int.parse(lightDown[0]), minute: int.parse(lightDown[1]));
+        List<String> lightUp = lightingUp.split(':');
+        TimeOfDay lightUpTime = TimeOfDay(
+            hour: int.parse(lightUp[0]), minute: int.parse(lightUp[1]));
+        this.lightingDown.add(lightDownTime);
+        this.lightingUp.add(lightUpTime);
+      }
+    }
+    this.lightingDown.removeAt(0);
+    this.lightingUp.removeAt(0);
+  }
+
   Future<void> _fetchData() async {
     try {
       // Executes all requests concurrently
@@ -204,7 +234,8 @@ class AppState with ChangeNotifier {
         _fetchFlagColour(),
         _fetchHourlyWeather(),
         _fetchDailyWeather(),
-        _fetchRiverLevel()
+        _fetchRiverLevel(),
+        _fetchLightingTimes()
       ]);
     } catch (e) {
       print(e);
@@ -224,9 +255,6 @@ class AppState with ChangeNotifier {
     } else {
       for (Outing outing in outings[key]!) {
         if (isOverlap(start, end, outing.start, outing.end)) {
-          print("theres overlap!!!");
-          print(start);
-          print(end);
           return false;
         }
       }
