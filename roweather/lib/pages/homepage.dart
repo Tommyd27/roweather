@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         Positioned(
             top: 50,
-            left: 80,
+            left: 60,
             child: Column(
               children: [
                 Text(
@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
             )),
         Positioned(
             top: 50,
-            right: 80,
+            right: 60,
             child: Column(
               children: [
                 Text(
@@ -126,14 +126,14 @@ class _MyHomePageState extends State<MyHomePage> {
             )),
         Positioned(
             top: 85,
-            right: 120,
+            right: 80,
             child: Text(
               "${Provider.of<AppState>(context).lightingUp[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingUp[0].minute.toString().padLeft(2, '0')}",
               style: TextStyle(fontSize: 20, color: Colors.white),
             )),
         Positioned(
             top: 85,
-            left: 120,
+            left: 80,
             child: Text(
               "${Provider.of<AppState>(context).lightingDown[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingDown[0].minute.toString().padLeft(2, '0')}",
               style: TextStyle(fontSize: 20, color: Colors.white),
