@@ -50,13 +50,13 @@ class _BookingPageState extends State<BookingPage> {
         drawer: Sidebar(),
         appBar: AppBar(
           leading: GestureDetector(
-            onTap: () {
-              scaffoldKey.currentState!.openDrawer();
-            },
             child: const Icon(
-              Icons.menu, // add custom icons also
+              Icons.close, // add custom icons also
               color: Colors.white,
             ),
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Roweather'))),
+            },
           ),
           backgroundColor: Color(0xFF4e7c65),
           /*title: const Row(
