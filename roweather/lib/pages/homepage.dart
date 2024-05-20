@@ -105,15 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         : Colors.red,
                       size: 90
                   )
-                /*child: appstate.flagColour == FlagColour.unknown
-                    ? CircularProgressIndicator()
-                    : Text(
-                        '''Flag is currently: ${appstate.flagColour == FlagColour.green ? "Green" : appstate.flagColour == FlagColour.yellow ? "Yellow" : "Red"}
-                    
-          River level (Baits Bite): ${appstate.riverLevel}m''',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 30),
-                      )*/
             );
           },
         ),

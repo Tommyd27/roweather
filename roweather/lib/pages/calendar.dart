@@ -51,29 +51,45 @@ DateTime? selectedCalendarDate;
       key: scaffoldKey,
       drawer: Sidebar(),
       appBar: AppBar(
-      leading: GestureDetector(
-        onTap: () {
-          scaffoldKey.currentState!.openDrawer();
-        },
-        child: Icon(
-        Icons.menu,  // add custom icons also
-        color: Colors.white,
+        leading: GestureDetector(
+          onTap: () {
+            scaffoldKey.currentState!.openDrawer();
+          },
+          child: const Icon(
+          Icons.menu,  // add custom icons also
+          color: Colors.white,
+            ),
           ),
-        ),
-        backgroundColor: Color(0xFF4e7c65),
-        title: Row(
-          children: [
-            Center(
-              child: Text('Select date and time to schedule:',
+          backgroundColor: Color(0xFF4e7c65),
+          /*title: const Row(
+            children: [
+              Center(
+                child: Text(
+                  'Select date and time to schedule:',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),*/
+          title: const FittedBox(
+            alignment: Alignment.topLeft,
+            fit: BoxFit.fitWidth,
+            child: Text(
+              'Select date and time to schedule:',
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
                 fontSize: 24,
                 color: Colors.white,
-              )),
+              ),
             ),
-          ],
-        ),
+          ),
+
       ),
       body: Container(
         alignment: Alignment.center,
@@ -131,7 +147,7 @@ DateTime? selectedCalendarDate;
                            size: 28,
                          ),
                         ),
-                        calendarStyle: CalendarStyle(
+                        calendarStyle: const CalendarStyle(
                           weekendTextStyle: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'Roboto',
@@ -176,7 +192,7 @@ DateTime? selectedCalendarDate;
               ),
               SingleChildScrollView(
                 child: SizedBox(
-            height: 200,
+            height: 150,
             width: MediaQuery.of(context).size.width*0.9,
             child: Container(
               decoration: BoxDecoration(
@@ -195,7 +211,7 @@ DateTime? selectedCalendarDate;
                           child: const Text('Start time:',
                             style: TextStyle(
                               fontFamily: 'Roboto',
-                              fontSize: 32,
+                              fontSize: 28,
                             )                  
                           )
                         ),
@@ -227,7 +243,7 @@ DateTime? selectedCalendarDate;
                                     ),
                                     onSelectedItemChanged: (value) {
                                       setState(( ) {
-                                        _startHour = value;
+                                        _startHour = value + 5;
                                       });
                                     },
                                 
@@ -279,7 +295,7 @@ DateTime? selectedCalendarDate;
                           child: const Text('End time:',
                             style: TextStyle(
                               fontFamily: 'Roboto',
-                              fontSize: 32
+                              fontSize: 28
                             )                  
                           )
                         ),
@@ -311,7 +327,7 @@ DateTime? selectedCalendarDate;
                                     ),
                                     onSelectedItemChanged: (value) {
                                       setState(( ) {
-                                        _endHour = value;
+                                        _endHour = value + 5;
                                       });
                                     },
                                 
@@ -373,12 +389,12 @@ DateTime? selectedCalendarDate;
                     ),
               Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFFA6C5B5),
+                  color: const Color(0xFFA6C5B5),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(25.0),
                     ),
                     border: Border.all(color: Color(0xff639067), width: 4),
-                  boxShadow: [BoxShadow(
+                  boxShadow: const [BoxShadow(
                     color: Color(0xFF444444),
                     spreadRadius: 3,
                     blurRadius: 5,
@@ -420,10 +436,10 @@ DateTime? selectedCalendarDate;
                     }
                   
                    },
-                  child: Text('Book',
+                  child: const Text('Book',
                     style: TextStyle(
                       fontFamily: 'Roboto',
-                      fontSize: 48,
+                      fontSize: 40,
                     ),
                   
                   
