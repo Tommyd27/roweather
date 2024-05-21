@@ -54,12 +54,12 @@ class CarouselElement extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
+        //Main list tile:
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             height: 110,
             decoration: BoxDecoration(
-              // color: const Color(0xff85B09A).withOpacity(0.30),
               borderRadius: const BorderRadius.all(Radius.circular(7)),
               boxShadow: selected ? null : const [
                 BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.3), blurRadius: 6, spreadRadius: 1, blurStyle: BlurStyle.outer)
@@ -99,6 +99,7 @@ class CarouselElement extends StatelessWidget {
             }),
           ),
         ),
+        // Displaying day of the week & month date:
         Positioned(
           left: 20,
           top: 10,
@@ -108,12 +109,14 @@ class CarouselElement extends StatelessWidget {
                 fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
+        // Displaying predicted flag in top right corner:
         Positioned(
             right: 10,
             top: 10,
             child: flagIcons[
-                appstate.flagColour]! // TODO: Change to flag colour prediction
+                appstate.estimateFlagColour(index)]!
             ),
+        // Displaying which outings have been booked:
         Positioned(
           left: 10,
           top: 40,
@@ -140,6 +143,7 @@ class CarouselElement extends StatelessWidget {
                 : Container(),
           ),
         ),
+        // Displaying symbol for day weather overview 
         Positioned(
             right: -5,
             bottom: -5,

@@ -88,6 +88,24 @@ class AppState with ChangeNotifier {
     }
   }
 
+  FlagColour estimateFlagColour(int dayIndex){
+    try{
+      DailyWeather data = daily[dayIndex];
+      double mphWindSpeed = (settings.unitSpeed == "KM/H")? data.windSpeed / 1.609 : data.windSpeed;
+      double celsiusTemp = (settings.unitTemperature == "Fahrenheit")? ((data.temperature - 32) * 5 / 9) : data.temperature;
+      if (data.weather == Weather.thunderstorm || data.weather == Weather.freezing){
+        return FlagColour.red;
+      } else if (data.weather == Weather.fog || mphWindSpeed > 35 || (mphWindSpeed > 25 && celsiusTemp < 0)){
+          return FlagColour.yellow;
+      } else {
+        return FlagColour.green;
+      }
+    }
+    catch (e) {
+      return FlagColour.unknown;
+    }
+  }
+
   List<Outing> getOutingsForDay(DateTime day) {
     return outings[DateTime(day.year, day.month, day.day)] ?? [];
   }
