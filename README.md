@@ -14,10 +14,10 @@ In addition, we have built the capabilities to book outings for certain dates an
 To run our source code, Flutter/Dart should be installed following the official instructions: https://docs.flutter.dev/get-started/install 
 
 
-As part of the installation process, ensure that the Android development toolchain and its dependencies are installed. Running `flutter doctor` on the command line will show what dependencies are yet to be installed on your machine. 
+As part of the installation process, ensure that the [Android development toolchain](https://docs.flutter.dev/get-started/install/windows/mobile?tab=download#configure-android-development) and its dependencies are installed. Running `flutter doctor` on the command line will show what dependencies are yet to be installed on your machine. 
 
 
-Finally, to execute the source code, we recommend following official instructions to open and run our project in VSCode, but it is also possible to execute the app through the command line.
+Finally, to execute the source code, we recommend following official instructions to open and [run our project in VSCode](https://docs.flutter.dev/get-started/test-drive?tab=vscode), but it is also possible to [execute the app through the command line](https://docs.flutter.dev/get-started/test-drive?tab=terminal).
 ## Home Screen and Menu
 Upon running, and after loading, the home screen will appear, which will include the flag rating for the day at the top, and a carousel of buttons for each day in the middle, each with the predicted flag rating and overall weather for the day. Click on a day button, and the predicted temperature; wind speed; humidity; UV rating and river level will appear. There will also be a series of graphs for the statistics of: temperature; wind speed; cloud cover; and precipitation, predicted hourly for the current day.
 ## Settings
