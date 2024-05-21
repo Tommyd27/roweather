@@ -116,6 +116,16 @@ class CarouselElement extends StatelessWidget {
             child: flagIcons[
                 appstate.estimateFlagColour(index)]!
             ),
+        // Displaying symbol for day weather overview 
+        Positioned(
+            right: -5,
+            bottom: -5,
+            child: Image(
+              image: AssetImage(
+                  'assets/icons/${weatherToImage[appstate.daily![index].weather]}.png'),
+              width: 70
+            ),
+        ),
         // Displaying which outings have been booked:
         Positioned(
           left: 10,
@@ -134,7 +144,7 @@ class CarouselElement extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          '${outing.start.hour} - ${outing.end.hour} Outing',
+                          '${outing.start.hour}:${outing.start.minute} - ${outing.end.hour}:${outing.end.minute} Outing',
                           style: TextStyle(color: Colors.black, fontSize: 10),
                         ),
                       );
@@ -143,14 +153,7 @@ class CarouselElement extends StatelessWidget {
                 : Container(),
           ),
         ),
-        // Displaying symbol for day weather overview 
-        Positioned(
-            right: -5,
-            bottom: -5,
-            child: Image(
-                image: AssetImage(
-                    'assets/icons/${weatherToImage[appstate.daily![index].weather]}.png'),
-                width: 70))
+        
       ],
     );
   }
