@@ -183,13 +183,17 @@ class AppState with ChangeNotifier {
       throw Exception("Failure fetching river level API");
     var js = jsonDecode(response.body);
 
-    riverLevel = js['items'][0]['value'].toDouble();
+    // Fixed river level offset 
+    // Value obtained from https://environment.data.gov.uk/flood-monitoring/id/stations/E60101
+    const double OFFSET = 3.6;
+
+    riverLevel = js['items'][0]['value'].toDouble() + OFFSET;
     lastRiverTime = DateTime.parse(js['items'][0]['dateTime']);
 
     var points = <double, double>{
       for (var v in js['items'])
         DateTime.parse(v['dateTime']).difference(lastHour).inMinutes.toDouble():
-            v['value'].toDouble()
+            v['value'].toDouble() + OFFSET
     };
 
     /*
