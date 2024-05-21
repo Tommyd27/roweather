@@ -73,7 +73,7 @@ class SelectedDay extends StatelessWidget {
           speedUnits = "MPH";
         }
         if (appstate.settings.unitHeight == "Feet") {
-          riverLevel = riverLevel! * 3.281;
+          riverLevel = riverLevel == null ? null : riverLevel! * 3.281;
           lengthUnits = "ft";
         }
         return Container(
