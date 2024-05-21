@@ -92,7 +92,7 @@ class AppState with ChangeNotifier {
 
   FlagColour estimateFlagColour(int dayIndex){
     try{
-      DailyWeather data = daily[dayIndex];
+      DailyWeather data = daily![dayIndex];
       double mphWindSpeed = (settings.unitSpeed == "KM/H")? data.windSpeed / 1.609 : data.windSpeed;
       double celsiusTemp = (settings.unitTemperature == "Fahrenheit")? ((data.temperature - 32) * 5 / 9) : data.temperature;
       if (data.weather == Weather.thunderstorm || data.weather == Weather.freezing){
