@@ -3,12 +3,12 @@ import 'hourline.dart';
 import 'package:provider/provider.dart';
 import '../appstate.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HourlyBox extends Container {
   HourlyBox() : super(
     padding: EdgeInsets.only(top: 560, left: 0),
     child: Stack(children: [
+      // time is displayed as tooltips on a line chart with an invisible horizontal line
       Consumer<AppState>(builder: (context, appstate, child) => 
         Container(
           padding: const EdgeInsets.only(left: 64.0, top:10.0, right: 32.0),
@@ -26,6 +26,8 @@ class HourlyBox extends Container {
       CustomScrollView(
         slivers: <Widget>[
           SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Stack(children: [
+
+            // temperature line chart
             Container(
             color: const Color.fromARGB(255, 1, 79, 74),
             padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0, bottom: 10.0),
@@ -44,6 +46,8 @@ class HourlyBox extends Container {
           )),
             ]))),
           SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Stack(children: [
+
+            // wind speed line chart
             Container(
             padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0, bottom: 10.0),
             height: 100,
@@ -60,6 +64,8 @@ class HourlyBox extends Container {
             appstate.settings.unitSpeed, style: const TextStyle(color: Colors.white, fontSize: 20))),
           ]))),
           SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Stack(children: [
+
+            // cloud cover line chart
             Container(
             color: Color.fromARGB(255, 1, 79, 74),
             padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0, bottom: 10.0),
@@ -79,6 +85,8 @@ class HourlyBox extends Container {
             "%", style: TextStyle(color: Colors.white, fontSize: 26))),
         ]))),
           SliverToBoxAdapter(child: Consumer<AppState>(builder: (context, appstate, child) => Stack(children: [
+            
+            // precipitation probability line chart
             Container(
             padding: const EdgeInsets.only(left: 64.0, top:50.0, right: 32.0, bottom: 10.0),
             height: 100,
