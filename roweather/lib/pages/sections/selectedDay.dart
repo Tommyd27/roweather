@@ -58,6 +58,7 @@ class SelectedDay extends StatelessWidget {
 
         double? temp = info.temperature;
         double? wind = info.windSpeed;
+        double? riverLevel = appstate.estimateRiverLevel(info.day);
         String tempSign = "°C";
         String speedUnits = "KM/H";
         String lengthUnits = "m";
@@ -72,7 +73,7 @@ class SelectedDay extends StatelessWidget {
           speedUnits = "MPH";
         }
         if (appstate.settings.unitHeight == "Feet") {
-          appstate.riverLevel = appstate.riverLevel! * 3.281;
+          riverLevel = riverLevel! * 3.281;
           lengthUnits = "ft";
         }
         return Container(
@@ -101,11 +102,11 @@ class SelectedDay extends StatelessWidget {
                       children: <Widget>[
                         TextComponent(info.uvIndex.toString(),
                             sideUpText: "UV"),
-                        appstate.riverLevel == null
+                        riverLevel == null
                             ? const CircularProgressIndicator()
                             : TextComponent(
                                 formatter.format(
-                                    appstate.estimateRiverLevel(info.day)),
+                                    riverLevel),
                                 sideUpText: lengthUnits,
                                 sideDownText: "River Level")
                       ]))
