@@ -19,7 +19,7 @@ class HourlyBox extends Container {
           (datapoint) => FlSpot(datapoint.dt.difference(appstate.lastHour).inHours.toDouble(), datapoint.dt.hour.toDouble()),
           (spot) => LineTooltipItem("${
             (spot.y + ({"BST": 1, "UTC": 0, "GMT": 0}[appstate.settings.timeZone]))
-            .round().toString()}:00", TextStyle(color: Colors.white, fontSize: 20)),
+            .round().toString()}:00", TextStyle(color: Colors.white, fontSize: 16)),
           showLine: false
         ))
       ),
