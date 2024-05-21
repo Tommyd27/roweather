@@ -22,6 +22,9 @@ class CarouselElement extends StatelessWidget {
 
   final bool selected;
 
+  // double digit formatter
+  NumberFormat ddf = NumberFormat("00");
+
   // Mapping from the FlagColour state to the icon displayed
   static const Map<FlagColour, Widget> flagIcons = {
     FlagColour.green: Icon(
@@ -143,7 +146,7 @@ class CarouselElement extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          '${outing.start.hour}:${outing.start.minute} - ${outing.end.hour}:${outing.end.minute} Outing',
+                          '${ddf.format(outing.start.hour)}:${ddf.format(outing.start.minute)} - ${ddf.format(outing.end.hour)}:${ddf.format(outing.end.minute)} Outing',
                           style: TextStyle(color: Colors.black, fontSize: 10),
                         ),
                       );
