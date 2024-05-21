@@ -217,7 +217,8 @@ class AppState with ChangeNotifier {
   }
 
   // return the estimated river level at a DateTime using the linear regression model
-  double estimateRiverLevel(DateTime at) {
+  double? estimateRiverLevel(DateTime at) {
+    if (riverLevel == null) return null;
     return riverLevel! +
         at.difference(lastHour).inMinutes.toDouble() * riverRegressionGradient!;
   }
