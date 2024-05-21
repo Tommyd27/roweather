@@ -1,4 +1,3 @@
-import 'package:demo/pages/sections/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../appstate.dart';
@@ -46,6 +45,9 @@ class CarouselElement extends StatelessWidget {
     Weather.partialCloudy: "partialCloudy",
     Weather.fullCloudy: "fullCloudy",
     Weather.rainy: "rainy",
+    Weather.fog: "fullCloudy",
+    Weather.freezing: "fullCloudy",
+    Weather.thunderstorm: "fullCloudy"
   };
 
   CarouselElement(this.index, this.appstate, {super.key}) : selected = index == appstate.daySelectedIndex;
