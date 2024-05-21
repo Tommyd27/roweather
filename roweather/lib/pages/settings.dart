@@ -129,6 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         onChanged: (String? newValue) {
                                           appstate.settings.language =
                                               newValue!;
+                                          appstate.notifyListeners();
                                         },
                                         items: <String>[
                                           'English',
@@ -166,6 +167,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       alignment: Alignment.center,
                                       onChanged: (String? newValue) {
                                         appstate.settings.timeZone = newValue!;
+                                        appstate.notifyListeners();
                                       },
                                       items: <String>['BST', 'UTC', 'GMT']
                                           .map<DropdownMenuItem<String>>(
@@ -212,6 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         onChanged: (String? newValue) {
                                           appstate.settings.unitSpeed =
                                               newValue!;
+                                          appstate.notifyListeners();
                                         },
                                         items: <String>['KM/H', 'MPH']
                                             .map<DropdownMenuItem<String>>(
@@ -246,6 +249,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         onChanged: (String? newValue) {
                                           appstate.settings.unitTemperature =
                                               newValue!;
+                                          appstate.notifyListeners();
                                         },
                                         items: <String>['Celsius', 'Fahrenheit']
                                             .map<DropdownMenuItem<String>>(
@@ -279,6 +283,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         onChanged: (String? newValue) {
                                           appstate.settings.unitHeight =
                                               newValue!;
+                                          appstate.notifyListeners();
                                         },
                                         items: <String>['Meters', 'Feet']
                                             .map<DropdownMenuItem<String>>(
