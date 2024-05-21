@@ -26,6 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
       key: scaffoldKey,
       drawer: Sidebar(),
       body: Stack(children: <Widget>[
+        // background image
         Container(
           width: double.infinity,
           decoration: const BoxDecoration(
@@ -37,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           height: 600,
         ),
+        // background gradient
         Container(
           decoration: const BoxDecoration(
               color: Colors.white,
@@ -52,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.6,
                   ])),
         ),
+        // next days carousel
         Positioned(
             top: 250,
             left: 0,
@@ -63,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               SelectedDay(),
             ])),
+        // menu button
         Positioned(
             left: 10,
             top: 20,
@@ -70,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () => scaffoldKey.currentState!.openDrawer(),
             )),
+        // flag display
         Consumer<AppState>(
           builder: (context, appstate, child) {
             return Container(
@@ -99,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ]));
           },
         ),
+        // sunrise text
         Positioned(
             top: 60,
             left: 75,
@@ -114,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             )),
+        // sunset text
         Positioned(
             top: 60,
             right: 75,
@@ -130,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             )),
+        // lighting up value
         Positioned(
             top: 95,
             right: 100,
@@ -137,6 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
               "${Provider.of<AppState>(context).lightingUp[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingUp[0].minute.toString().padLeft(2, '0')}",
               style: TextStyle(fontSize: 20, color: Colors.white),
             )),
+        // lighting down value
         Positioned(
             top: 95,
             left: 100,
@@ -144,6 +153,8 @@ class _MyHomePageState extends State<MyHomePage> {
               "${Provider.of<AppState>(context).lightingDown[0].hour.toString().padLeft(2, '0')}:${Provider.of<AppState>(context).lightingDown[0].minute.toString().padLeft(2, '0')}",
               style: TextStyle(fontSize: 20, color: Colors.white),
             )),
+        
+        // hourly line charts box
         HourlyBox(),
       ]),
     );

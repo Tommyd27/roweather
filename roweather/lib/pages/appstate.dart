@@ -52,6 +52,7 @@ class AppState with ChangeNotifier {
   double? riverLevel;
   final HashMap<DateTime, List<Outing>> outings = HashMap();
 
+  // lastHour is an arbitrary DateTime that is used as a reference point to produce Duration objects
   DateTime lastHour = DateTime(2024, 5, 16, 15, 0, 0);
   var hourly = <HourlyWeather>[];
   List<DailyWeather>? daily;
@@ -69,6 +70,7 @@ class AppState with ChangeNotifier {
     _fetchData();
   }
 
+  // fetch flag colour from the CUCBC API
   Future<void> _fetchFlagColour() async {
     var response = await http.get(Uri.parse('http://m.cucbc.org/'));
     if (response.statusCode != 200)
@@ -106,10 +108,12 @@ class AppState with ChangeNotifier {
     }
   }
 
+  // return list of outings associated with the key of a given day, empty list if none
   List<Outing> getOutingsForDay(DateTime day) {
     return outings[DateTime(day.year, day.month, day.day)] ?? [];
   }
 
+  // fetch 24hr timestep weather information from the tomorrow.io API
   Future<void> _fetchDailyWeather() async {
     var body;
 
@@ -159,9 +163,11 @@ class AppState with ChangeNotifier {
     print("Daily weather information fetched. ");
   }
 
+  // fetch river level information for the last riverRegressionPoints days from the Environment Agency API
   Future<void> _fetchRiverLevel() async {
     // Environment Agency API river levels
-    /* Cambridge river stations:
+    /* 
+      Cambridge river stations:
         E21732 - Byron's Pool (mASD)
         E60101 - Baits Bite (mASD)
         E60501 - Jesus Lock Sluice (mASD)
@@ -169,8 +175,8 @@ class AppState with ChangeNotifier {
         2603 - FAKE Cambridge (mASD)
         E60502 - Jesus Lock Sluice (Downstream, mAOD)
         E24028 - Jesus Lock Sluice
-        
-      */
+    */
+
     var response = await http.get(Uri.parse(
         'https://environment.data.gov.uk/flood-monitoring/id/measures/E60101-level-stage-i-15_min-mASD/readings?_sorted&_limit=${riverRegressionPoints.toString()}'));
     if (response.statusCode != 200)
@@ -206,11 +212,13 @@ class AppState with ChangeNotifier {
         (lastRiverTime!.difference(lastHour).inMinutes.toDouble() - mx);
   }
 
+  // return the estimated river level at a DateTime using the linear regression model
   double estimateRiverLevel(DateTime at) {
     return riverLevel! +
         at.difference(lastHour).inMinutes.toDouble() * riverRegressionGradient!;
   }
 
+  // fetch the 1h timestep weather information from the tomorrow.io API
   Future<void> _fetchHourlyWeather() async {
     var body;
 
@@ -253,6 +261,7 @@ class AppState with ChangeNotifier {
         .toList();
   }
 
+  // fetch lighting times from the CUCBC API
   Future<void> _fetchLightingTimes() async {
     var response = await http.get(Uri.parse('https://www.cucbc.org/lighting'));
     if (response.statusCode != 200)
@@ -282,6 +291,7 @@ class AppState with ChangeNotifier {
     this.lightingUp.removeAt(0);
   }
 
+  // asynchronously perform the API fetches, then notify appstate listeners
   Future<void> _fetchData() async {
     try {
       // Executes all requests concurrently
@@ -302,6 +312,8 @@ class AppState with ChangeNotifier {
     }
   }
 
+  // add an outing to the HashMap for a given day with a start and end time
+  // returns false if an overlap occurs, true otherwise
   bool addOuting(DateTime key, TimeOfDay start, TimeOfDay end) {
     Outing newO = Outing(start: start, end: end);
     if (outings[key] == null) {
@@ -320,6 +332,8 @@ class AppState with ChangeNotifier {
     return true;
   }
 
+
+  // utility function returns true if t1 is after t2
   bool isAfter(TimeOfDay t1, TimeOfDay t2) {
     if (t2.hour != t1.hour) {
       return t1.hour > t2.hour;
@@ -327,16 +341,19 @@ class AppState with ChangeNotifier {
     return t1.minute > t2.minute;
   }
 
+  // returns whether two times overlap given their start and end points
   bool isOverlap(
       TimeOfDay start1, TimeOfDay end1, TimeOfDay start2, TimeOfDay end2) {
     return !(isAfter(start1, end2) || isAfter(start2, end1));
   }
 
+  // delete all outings from the HashMap
   void deleteOutings() {
     outings.clear();
     notifyListeners();
   }
 
+  // update the selected day for the per-day weather display
   void selectDay(int index) {
     daySelectedIndex = index;
     notifyListeners();
