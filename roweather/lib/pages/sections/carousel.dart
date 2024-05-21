@@ -1,4 +1,3 @@
-import 'package:demo/pages/sections/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../appstate.dart';
